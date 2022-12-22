@@ -1,0 +1,34 @@
+{
+    "s_volt": 26.5,
+    "f_volt": 32.0,
+    "base_rate": 32701170393568,
+    "step_rate": 3200000000.0,
+    "_adder_max": 24,
+    "k": 296232622,
+    "temp_rate": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+    ],
+    "s_volt_single_res": 12.1,
+    "f_volt_single_res": 8.4,
+    "s_freq_bit_single_res": 1611784263440372,
+    "f_freq_bit_single_res": 3269685387065018,
+    "s_target_phase_single_res": 0,
+    "f_target_phase_single_res": 0,
+    "target_phase": [
+        4022.4,
+        1516.2
+    ],
+    "back_freq": 50,
+    "prime_number": [
+        140,
+        281
+    ],
+    "step": 9290817,
+    "phase_lock": 0,
+    "log_interval": 1,
+    "pkg": 0,
+    "sample": "AT1930303"
+}
