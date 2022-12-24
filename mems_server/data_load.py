@@ -114,8 +114,7 @@ def draw_multi_graph2(fig, board_name="2209-05", sample="AT1910305", start_point
     files = get_all_files(board_name, sample, start_num=start_point, stop_num=stop_point)
     print(files)
     if start_point == -1:
-        start_point = len(files)
-        stop_point = start_point
+        files = [files[len(files) - 1]]
     df_array = []
     for file_name in files:
         df_array.append(get_dataframe(file_name))
