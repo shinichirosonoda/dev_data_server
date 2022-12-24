@@ -48,13 +48,15 @@ def get_dataframe(file_name):
 
 def get_information(board_name):
     file_name = get_latest_file(board_name)
+   
     if file_name is None:
-        return "","",""
+        return "","","",""
     df = pd.read_csv(file_name, index_col=0)
     sample_name = str(file_name)[-13:-4]
+    max_num = len(get_all_files(board_name, sample_name))
     start_time = df["Time"][0]
     stop_time = df["Time"][len(df["Time"])-1]
-    return sample_name, start_time, stop_time
+    return sample_name, start_time, stop_time, max_num
 
 def get_information_init(board_name, sample, start_point=1, stop_point=10000):
 
@@ -110,6 +112,7 @@ def draw_graph2(df_array, i, ax1, fig):
 
 def draw_multi_graph2(fig, board_name="2209-05", sample="AT1910305", start_point=1, stop_point=10000):
     files = get_all_files(board_name, sample, start_num=start_point, stop_num=stop_point)
+    print(files)
     if start_point == -1:
         start_point = len(files)
         stop_point = start_point

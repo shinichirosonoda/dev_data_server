@@ -3,10 +3,11 @@ var value1 = "2209-05"
 var value2 = "latest";
 var start_point = 1;
 var stop_point = 1000;
+var max_num = 0;
 
 function draw_common(){
     var plotdata = document.getElementById('plotimg');
-    var send_data = JSON.stringify({func; value1, mode: value2, start_point: start_point, stop_point:stop_point});
+    var send_data = JSON.stringify({func: value1, mode: value2, start_point: start_point, stop_point:stop_point});
     
     $.ajax({
         method: "POST",
@@ -23,22 +24,18 @@ function draw_common(){
 function drawGraph(obj) {
     var idx = obj.selectedIndex;
     value1 = obj.options[idx].value;
-    console.log("graph1="+value1);
-    console.log("graph1="+value2);
     draw_common();
 };
 
 function drawGraph2(obj) {
     var idx = obj.selectedIndex;
     value2 = obj.options[idx].value;
-    console.log("graph2="+value1);
-    console.log("graph2="+value2);
     draw_common();
 
 };
 
 function print_sample(value){
-    var send_data = JSON.stringify({func; value1, mode: value2, start_point: start_point, stop_point:stop_point});
+    var send_data = JSON.stringify({func: value1, mode: value2, start_point: start_point, stop_point:stop_point});
     $.ajax({
         method: "POST",
         url: "/sample",
@@ -46,9 +43,16 @@ function print_sample(value){
         contentType: "application/json"
     })
     .done(function(data) {
-        $("#sample").text(data);
-        $("#start_time").text(data);
-        $("#stop_time").text(data);
+        
+        $("#sample").text(data.sample);
+        $("#start_time").text(data.start_time);
+        $("#stop_time").text(data.stop_time);
+        max_num = data.max_num;
+
+        let element = document.getElementById("text2");
+        if (parseInt(element.value) > parseInt(max_num)){
+            element.value = max_num;
+        }
     });
 }
 
@@ -58,7 +62,6 @@ function botton(){
             e.preventDefault();  // ボタン押下時の動作を抑制
             start_point = $('#text1').val();
             stop_point = $('#text2').val();
-            
             draw_common();
         }); 
     });
