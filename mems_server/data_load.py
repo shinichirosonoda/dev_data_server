@@ -77,34 +77,6 @@ def get_information_init(board_name, sample, start_point=1, stop_point=10000):
     stop_time = df_stop["Time"][len(df_stop["Time"])-1]
     return sample_name, start_time, stop_time
 
-def draw_graph(df, i, ax1, fig):
-    if df is None:
-        return
-    ax2 = ax1.twinx()
-
-    ax1.set_xlabel("Time", size=10)
-    ax1.set_ylabel(axis[i], size=10)
-    ax2.set_ylabel("Temperature (deg)", size=10)
-
-    time = pd.to_datetime(df["Time"])
-
-    xmin = time[0]
-    xmax = time[len(time)-1]
-
-    ax1.set_xlim(xmin,xmax)
-    ax1.set_xticks([xmin, xmax]) 
-    ax1.set_xticklabels([xmin, xmax])
-    ax1.tick_params(axis='x', labelsize=8)
-    ax1.tick_params(axis='y', labelsize=8)
-    ax2.tick_params(axis='y', labelsize=8)
-    #ax1.set_ylim(3800,4000)
-    #ax2.set_ylim(15,30)
-
-    ax1.set_title(titles[i], size=10)
-    fig.subplots_adjust(wspace=0.3, hspace=0.3)
-    ax1.plot(time, df[items[i]], color=color[i])
-    ax2.plot(time, df["temperature"], color="g")
-
 
 def draw_graph2(df_array, i, ax1, fig):
     if df_array == []:
@@ -136,18 +108,11 @@ def draw_graph2(df_array, i, ax1, fig):
     ax1.set_xticklabels([xmin, xmax])
 
 
-def draw_multi_graph(fig, board_name="2209-05"):
-    file_name = get_latest_file(board_name)
-    df = get_dataframe(file_name)
-
-    for i in range(8):
-        ax = fig.add_subplot(4, 2, i+1)
-        draw_graph(df, i, ax, fig)
-
-    return fig
-
 def draw_multi_graph2(fig, board_name="2209-05", sample="AT1910305", start_point=1, stop_point=10000):
     files = get_all_files(board_name, sample, start_num=start_point, stop_num=stop_point)
+    if start_point == -1:
+        start_point = len(files)
+        stop_point = start_point
     df_array = []
     for file_name in files:
         df_array.append(get_dataframe(file_name))
