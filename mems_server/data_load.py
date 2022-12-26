@@ -18,7 +18,7 @@ def get_latest_file(board_name):
     except:
         return
 
-def get_all_files(board_name, sample, start_num = 1, stop_num = 100):
+def get_all_files(board_name, sample, start_num = 1, stop_num = 1000000):
     try:
         path = select_sample_path(board_name, sample)
         #print(path)
@@ -29,6 +29,9 @@ def get_all_files(board_name, sample, start_num = 1, stop_num = 100):
 
         if strat_point < 0:
            strat_point = 0
+        if strat_point > end_point:
+           strat_point = end_point
+
         files = [file  for file in files[strat_point:end_point] ]
 
         return files
@@ -68,16 +71,21 @@ def get_information_init(board_name, sample, start_point=1, stop_point=10000):
     stop = len(file_name) - start_point
     
     if start <  0:
-       start = 0 
-    file_name_start = get_all_files(board_name, sample)[start]
-    file_name_stop = get_all_files(board_name, sample)[stop]
-    
-    df_start = pd.read_csv(file_name_start, index_col=0)
-    df_stop = pd.read_csv(file_name_stop, index_col=0)
-    sample_name = str(file_name_start)[-13:-4]
-    start_time = df_start["Time"][0]
-    stop_time = df_stop["Time"][len(df_stop["Time"])-1]
-    return sample_name, start_time, stop_time
+       start = 0
+    if stop >  len(file_name) - 1:
+       stop = len(file_name) - 1
+
+    try:   
+        file_name_start = get_all_files(board_name, sample)[start]
+        file_name_stop = get_all_files(board_name, sample)[stop]
+        df_start = pd.read_csv(file_name_start, index_col=0)
+        df_stop = pd.read_csv(file_name_stop, index_col=0)
+        sample_name = str(file_name_start)[-13:-4]
+        start_time = df_start["Time"][0]
+        stop_time = df_stop["Time"][len(df_stop["Time"])-1]
+        return sample_name, start_time, stop_time
+    except:
+        return "", "", ""
 
 
 def draw_graph2(df_array, i, ax1, fig):
