@@ -1,14 +1,15 @@
 // global
-var value1 = "2209-05"
-var value2 = "latest";
-var start_point = 1;
-var stop_point = 1000;
-var max_num = 0;
+let value1 = "2209-05"
+let value2 = "latest";
+let start_point = 1;
+let stop_point = 1000;
+let min_num = 1;
+let max_num = 0;
 
 
 function draw_common(){
-    var plotdata = document.getElementById('plotimg');
-    var send_data = JSON.stringify({func: value1, mode: value2, start_point: start_point, stop_point:stop_point});
+    const plotdata = document.getElementById('plotimg');
+    const send_data = JSON.stringify({func: value1, mode: value2, start_point: start_point, stop_point:stop_point});
     
     $.ajax({
         method: "POST",
@@ -24,8 +25,8 @@ function draw_common(){
 }
 
 function draw_common(){
-    var plotdata = document.getElementById('plotimg');
-    var send_data = JSON.stringify({func: value1, mode: value2, start_point: start_point, stop_point:stop_point});
+    const plotdata = document.getElementById('plotimg');
+    const send_data = JSON.stringify({func: value1, mode: value2, start_point: start_point, stop_point:stop_point});
     
     $.ajax({
         method: "POST",
@@ -40,20 +41,20 @@ function draw_common(){
 }
 
 function drawGraph(obj) {
-    var idx = obj.selectedIndex;
+    const idx = obj.selectedIndex;
     value1 = obj.options[idx].value;
     draw_common();
 };
 
 function drawGraph2(obj) {
-    var idx = obj.selectedIndex;
+    const idx = obj.selectedIndex;
     value2 = obj.options[idx].value;
     draw_common();
 
 };
 
 function print_sample(){
-    var send_data = JSON.stringify({func: value1, mode: value2, start_point: start_point, stop_point:stop_point});
+    const send_data = JSON.stringify({func: value1, mode: value2, start_point: start_point, stop_point:stop_point});
     $.ajax({
         method: "POST",
         url: "/sample",
@@ -67,6 +68,7 @@ function print_sample(){
         $("#stop_time").text(data.stop_time);
         max_num = data.max_num;
         
+        /*
         let element1 = document.getElementById("text1");
         let element2 = document.getElementById("text2");
 
@@ -80,9 +82,21 @@ function print_sample(){
             element2.value = max_num;
         } else if (Number(element1.value) > Number(element2.value)){
             element2.value = element1.value;
-        }
+        }*/
+
+        start_point = check_box("#text1");
+        stop_point = check_box("#text2");
 
     });
+}
+
+function check_box(box_name){
+    let num = parseInt($(box_name).val());
+    if(num > max_num){ $(box_name).val(max_num)};
+    if(num < min_num){ $(box_name).val(min_num)};
+    num = parseInt($(box_name).val());
+
+    return num
 }
 
 function botton(){
@@ -90,13 +104,15 @@ function botton(){
         $('#button1').click(function(e) {
             e.preventDefault();  // ボタン押下時の動作を抑制
 
-            if (!Number.isNaN(Number($('#text1').val()))){
-                start_point = $('#text1').val();
+            start_point = check_box("#text1");
+            stop_point = check_box("#text2");
+
+            if (start_point > stop_point){
+                stop_point = start_point;
+                $("#text2").val(stop_point);
             }
-            if (!Number.isNaN(Number($('#text2').val()))){
-                stop_point = $('#text2').val();
-            }
-            
+
+            print_sample()
             draw_common();
         });
     });
