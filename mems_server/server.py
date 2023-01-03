@@ -42,18 +42,25 @@ def index():
 
 @app.route("/plot", methods=['post'])
 def plot_graph(func='2209-05_latest'):
-    func, mode, start_point, stop_point = \
-    request.json["func"], request.json["mode"], request.json["start_point"], request.json["stop_point"]
+    func, mode, start_point, stop_point ,sample_name = \
+    request.json["func"], request.json["mode"], request.json["start_point"], request.json["stop_point"],\
+    request.json["sample_name"]
 
     func = func.split('_')[0]
     fig = Figure(figsize=(15,15))
-    sample, _, _ , _= get_information(func)
+    
+    if sample_name == "":
+        sample_name, _, _ , _= get_information(func, sample_name, flag=False)
+    else:
+        sample_name, _, _ , _= get_information(func, sample_name, flag=True)
+
+    print("sample name=", sample_name)
     
     if mode == "latest":
-        fig = draw_multi_graph2(fig, board_name=func, sample=sample,\
+        fig = draw_multi_graph2(fig, board_name=func, sample=sample_name,\
               start_point=1, stop_point=1)
     elif mode == "all": 
-        fig = draw_multi_graph2(fig, board_name=func, sample=sample,\
+        fig = draw_multi_graph2(fig, board_name=func, sample=sample_name,\
               start_point=int(start_point), stop_point=int(stop_point))
     
     canvas = FigureCanvasAgg(fig)
@@ -64,12 +71,17 @@ def plot_graph(func='2209-05_latest'):
 
 @app.route("/sample", methods=['post'])
 def draw_sample(func='2209-05'):
-    func , mode, start_point, stop_point = \
-    request.json["func"], request.json["mode"], request.json["start_point"], request.json["stop_point"]
-    sample_name, start_time, stop_time, max_num = get_information(func)
+    func , mode, start_point, stop_point, sample_name = \
+    request.json["func"], request.json["mode"], request.json["start_point"], request.json["stop_point"],\
+    request.json["sample_name"]
+
+    if sample_name == "":
+        sample_name, start_time, stop_time, max_num = get_information(func, sample_name, flag=False)
+    else:
+        sample_name, start_time, stop_time, max_num = get_information(func, sample_name, flag=True)
     
     if mode == "all":
-        sample_name, start_time, stop_time = get_information_init(func, sample_name, start_point=int(start_point), stop_point=int(stop_point))
+        sample_name , start_time, stop_time = get_information_init(func, sample_name, start_point=int(start_point), stop_point=int(stop_point))
     
     return jsonify({"sample":"sample: " + sample_name, "start_time":"stop_time: " + start_time,\
                     "stop_time":"stop_time: " + stop_time, "max_num": max_num})

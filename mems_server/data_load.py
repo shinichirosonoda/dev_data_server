@@ -13,8 +13,8 @@ titles = ["Phase_fast", "Phase_slow", "Vpp_fast", "Vpp_slow",\
 def get_all_sample_name(board_name):
     try:
         path = select_path(board_name)
-        files = sorted(glob.glob(path))
-        sample_list = [str(file_name)[-13:-4] for file_name in files]
+        files = sorted(glob.glob(path), reverse=True)
+        sample_list = list(map(lambda file: file.split('_')[-1][:-4], files))
         sample_list = sorted(set(sample_list), key=sample_list.index)
         return sample_list
     except:
@@ -59,13 +59,17 @@ def get_dataframe(file_name):
         df = pd.read_csv(file_name, index_col=0)
         return df
 
-def get_information(board_name):
+def get_information(board_name, sample_name, flag=True):
     file_name = get_latest_file(board_name)
    
     if file_name is None:
         return "","","",""
+
     df = pd.read_csv(file_name, index_col=0)
-    sample_name = str(file_name)[-13:-4]
+    
+    if flag == False:
+        sample_name = (lambda file: file.split('_')[-1][:-4])(file_name)
+
     max_num = len(get_all_files(board_name, sample_name))
     start_time = df["Time"][0]
     stop_time = df["Time"][len(df["Time"])-1]

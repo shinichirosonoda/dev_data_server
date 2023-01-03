@@ -6,12 +6,12 @@ let start_point = 1;
 let stop_point = 1000;
 let min_num = 1;
 let max_num = 0;
-let sample_name;
+let sample_name = "";
 
 
 function draw_common(){
     const plotdata = document.getElementById('plotimg');
-    const send_data = JSON.stringify({func: value1, mode: value2, start_point: start_point, stop_point:stop_point});
+    const send_data = JSON.stringify({func: value1, mode: value2, start_point: start_point, stop_point: stop_point, sample_name: sample_name});
     
     $.ajax({
         method: "POST",
@@ -28,7 +28,7 @@ function draw_common(){
 
 function draw_common(){
     const plotdata = document.getElementById('plotimg');
-    const send_data = JSON.stringify({func: value1, mode: value2, start_point: start_point, stop_point:stop_point});
+    const send_data = JSON.stringify({func: value1, mode: value2, start_point: start_point, stop_point: stop_point, sample_name: sample_name});
     
     $.ajax({
         method: "POST",
@@ -53,12 +53,13 @@ function drawGraph(obj) {
 function drawGraph2(obj) {
     const idx = obj.selectedIndex;
     value2 = obj.options[idx].value;
+
     draw_common();
 
 };
 
 function print_sample(){
-    const send_data = JSON.stringify({func: value1, mode: value2, start_point: start_point, stop_point:stop_point});
+    const send_data = JSON.stringify({func: value1, mode: value2, start_point: start_point, stop_point:stop_point, sample_name: sample_name});
     $.ajax({
         method: "POST",
         url: "/sample",
@@ -111,10 +112,12 @@ function selectSample(obj){
     value3 = obj.options[idx].value;
     console.log("value3="+value3);
     sample_name = value3;
+
+    draw_common();
 }
 
 function set_sample(){
-    const send_data = JSON.stringify({func: value1, mode: value2, start_point: start_point, stop_point:stop_point});
+    const send_data = JSON.stringify({func: value1, mode: value2, start_point: start_point, stop_point: stop_point, sample_name: sample_name});
 
     $.ajax({
         method: "POST",
