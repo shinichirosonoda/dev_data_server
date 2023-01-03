@@ -67,22 +67,6 @@ function print_sample(){
         $("#start_time").text(data.start_time);
         $("#stop_time").text(data.stop_time);
         max_num = data.max_num;
-        
-        /*
-        let element1 = document.getElementById("text1");
-        let element2 = document.getElementById("text2");
-
-        if (Number(element1.value) < 1){
-            element1.value = 1;
-        } else if (Number(element1.value) > Number(max_num)){
-            element1.value = max_num;
-        }
- 
-        if (Number(element2.value) > Number(max_num)){
-            element2.value = max_num;
-        } else if (Number(element1.value) > Number(element2.value)){
-            element2.value = element1.value;
-        }*/
 
         start_point = check_box("#text1");
         stop_point = check_box("#text2");
