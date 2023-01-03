@@ -1,10 +1,12 @@
 // global
 let value1 = "2209-05"
 let value2 = "latest";
+let value3 = "1"
 let start_point = 1;
 let stop_point = 1000;
 let min_num = 1;
 let max_num = 0;
+let sample_name;
 
 
 function draw_common(){
@@ -43,6 +45,8 @@ function draw_common(){
 function drawGraph(obj) {
     const idx = obj.selectedIndex;
     value1 = obj.options[idx].value;
+    
+    set_sample();
     draw_common();
 };
 
@@ -100,4 +104,34 @@ function botton(){
             draw_common();
         });
     });
+}
+
+function selectSample(obj){
+    const idx = obj.selectedIndex;
+    value3 = obj.options[idx].value;
+    console.log("value3="+value3);
+    sample_name = value3;
+}
+
+function set_sample(){
+    const send_data = JSON.stringify({func: value1, mode: value2, start_point: start_point, stop_point:stop_point});
+
+    $.ajax({
+        method: "POST",
+        url: "/list",
+        data: send_data,
+        contentType: "application/json"
+    })
+    .done(function(data) {
+            console.log(data);
+            console.log(data.sample_list);
+            
+            $('#selector3').empty();
+
+            for (let i = 0; i < data.sample_list.length; i++){
+                $('#selector3').append('<option value='+data.sample_list[i]+'>'+data.sample_list[i]+'</option>');
+             }
+        }
+        
+    )
 }

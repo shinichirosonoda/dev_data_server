@@ -10,6 +10,16 @@ titles = ["Phase_fast", "Phase_slow", "Vpp_fast", "Vpp_slow",\
              "Frequency_fast", "Frequency_slow", "Voltage_fast", "Voltage_slow"]
 
 
+def get_all_sample_name(board_name):
+    try:
+        path = select_path(board_name)
+        files = sorted(glob.glob(path))
+        sample_list = [str(file_name)[-13:-4] for file_name in files]
+        sample_list = sorted(set(sample_list), key=sample_list.index)
+        return sample_list
+    except:
+        return
+
 def get_latest_file(board_name):
     try:
         path = select_path(board_name)

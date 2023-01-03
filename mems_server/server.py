@@ -9,7 +9,7 @@ import urllib
 from matplotlib.backends.backend_agg import FigureCanvasAgg
 from matplotlib.figure import Figure
 
-from data_load import draw_multi_graph2,\
+from data_load import draw_multi_graph2, get_all_sample_name,\
                       get_information, get_information_init
 
 import sys
@@ -73,6 +73,13 @@ def draw_sample(func='2209-05'):
     
     return jsonify({"sample":"sample: " + sample_name, "start_time":"stop_time: " + start_time,\
                     "stop_time":"stop_time: " + stop_time, "max_num": max_num})
+
+@app.route("/list", methods=['post'])
+def list():
+    func = request.json["func"]
+    sample_list = get_all_sample_name(func)
+    print(func)
+    return jsonify({'sample_list': sample_list})
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0', port=8080)

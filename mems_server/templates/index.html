@@ -19,6 +19,12 @@
 <body>
     <h1>MEMS running test</h1>
     <div>
+        <p>Select a sample number</p>
+        <select id=selector3 onchange="selectSample(this)">
+        </select>
+    </div>
+
+    <div>
         <p>Select a MEMS board number</p>
         <select id=selector onchange="drawGraph(this)">
             <option value="2203-04">2203-04</option>
@@ -31,8 +37,6 @@
             <option value="2209-11">2209-11</option>
         </select>
     </div>
-
-    <br/>
 
     <div>
         <p>Select a data type for display</p>
