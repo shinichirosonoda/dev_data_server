@@ -53,8 +53,6 @@ def plot_graph(func='2209-05_latest'):
         sample_name, _, _ , _= get_information(func, sample_name, flag=False)
     else:
         sample_name, _, _ , _= get_information(func, sample_name, flag=True)
-
-    print("sample name=", sample_name)
     
     if mode == "latest":
         fig = draw_multi_graph2(fig, board_name=func, sample=sample_name,\
@@ -90,7 +88,6 @@ def draw_sample(func='2209-05'):
 def list():
     func = request.json["func"]
     sample_list = get_all_sample_name(func)
-    print(func)
     return jsonify({'sample_list': sample_list})
 
 if __name__ == "__main__":

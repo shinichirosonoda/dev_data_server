@@ -3,7 +3,7 @@ let value1 = "2209-05"
 let value2 = "latest";
 let value3 = "1"
 let start_point = 1;
-let stop_point = 1000;
+let stop_point = 100000;
 let min_num = 1;
 let max_num = 0;
 let sample_name = "";
@@ -45,14 +45,22 @@ function draw_common(){
 function drawGraph(obj) {
     const idx = obj.selectedIndex;
     value1 = obj.options[idx].value;
-    
+    sample_name = "";
+
     set_sample();
+
+    $("#text1").val(1);
+    $("#text2").val(100000);
+
     draw_common();
 };
 
 function drawGraph2(obj) {
     const idx = obj.selectedIndex;
     value2 = obj.options[idx].value;
+
+    $("#text1").val(1);
+    $("#text2").val(100000);
 
     draw_common();
 
@@ -88,21 +96,24 @@ function check_box(box_name){
     return num
 }
 
+function check_num(){
+    start_point = check_box("#text1");
+    stop_point = check_box("#text2");
+
+    if (start_point > stop_point){
+        stop_point = start_point;
+        $("#text2").val(stop_point);
+    }
+
+    print_sample()
+    draw_common();
+}
+
 function botton(){
     $(function() {
         $('#button1').click(function(e) {
             e.preventDefault();  // ボタン押下時の動作を抑制
-
-            start_point = check_box("#text1");
-            stop_point = check_box("#text2");
-
-            if (start_point > stop_point){
-                stop_point = start_point;
-                $("#text2").val(stop_point);
-            }
-
-            print_sample()
-            draw_common();
+            check_num();
         });
     });
 }
@@ -110,8 +121,10 @@ function botton(){
 function selectSample(obj){
     const idx = obj.selectedIndex;
     value3 = obj.options[idx].value;
-    console.log("value3="+value3);
     sample_name = value3;
+
+    $("#text1").val(1);
+    $("#text2").val(100000);
 
     draw_common();
 }
@@ -126,9 +139,6 @@ function set_sample(){
         contentType: "application/json"
     })
     .done(function(data) {
-            console.log(data);
-            console.log(data.sample_list);
-            
             $('#selector3').empty();
 
             for (let i = 0; i < data.sample_list.length; i++){
