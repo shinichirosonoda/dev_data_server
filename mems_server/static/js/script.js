@@ -101,7 +101,7 @@ function check_box(box_name){
     return num
 }
 
-function check_num(){
+function check_start_stop(){
     start_point = check_box("#text1");
     stop_point = check_box("#text2");
 
@@ -118,7 +118,7 @@ function botton(){
     $(function() {
         $('#button1').click(function(e) {
             e.preventDefault();  // ボタン押下時の動作を抑制
-            check_num();
+            check_start_stop();
         });
     });
 }
