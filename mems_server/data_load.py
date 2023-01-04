@@ -31,7 +31,6 @@ def get_latest_file(board_name):
 def get_all_files(board_name, sample, start_num = 1, stop_num = 1000000):
     try:
         path = select_sample_path(board_name, sample)
-        #print(path)
         files = sorted(glob.glob(path))
         
         end_point =  len(files) - start_num + 1
@@ -157,7 +156,3 @@ if __name__ == '__main__':
     fig = plt.figure(figsize=(15,15))
     fig = draw_multi_graph(fig)
     plt.show()
-
-    
-
-    
