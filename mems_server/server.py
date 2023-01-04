@@ -80,6 +80,8 @@ def draw_sample(func='2209-05'):
     
     if mode == "all":
         sample_name , start_time, stop_time = get_information_init(func, sample_name, start_point=int(start_point), stop_point=int(stop_point))
+    else:
+        sample_name , start_time, stop_time = get_information_init(func, sample_name, start_point=1, stop_point=1)
     
     return jsonify({"sample":"sample: " + sample_name, "start_time":"stop_time: " + start_time,\
                     "stop_time":"stop_time: " + stop_time, "max_num": max_num})
