@@ -94,7 +94,7 @@ def get_information_init(board_name, sample, start_point=1, stop_point=10000):
         file_name_stop = get_all_files(board_name, sample)[stop]
         df_start = pd.read_csv(file_name_start, index_col=0)
         df_stop = pd.read_csv(file_name_stop, index_col=0)
-        sample_name = (lambda file: file.split('_')[-1][:-4])(file_name)
+        sample_name = (lambda file: file.split('_')[-1][:-4])(file_name_start)
         start_time = df_start["Time"][0]
         stop_time = df_stop["Time"][len(df_stop["Time"])-1]
         return sample_name, start_time, stop_time
