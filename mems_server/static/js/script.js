@@ -7,6 +7,8 @@ let stop_point = 100000;
 let min_num = 1;
 let max_num = 0;
 let sample_name = "";
+const start_min = 1;
+const stop_max = 100000;
 
 
 function draw_common(){
@@ -42,16 +44,21 @@ function draw_common(){
     print_sample(value1);
 }
 
+function set_start_stop(){
+    $("#text1").val(start_min);
+    $("#text2").val(stop_max);
+    start_point = start_min;
+    stop_point = stop_max;
+}
+
+
 function drawGraph(obj) {
     const idx = obj.selectedIndex;
     value1 = obj.options[idx].value;
     sample_name = "";
 
     set_sample();
-
-    $("#text1").val(1);
-    $("#text2").val(100000);
-
+    set_start_stop();
     draw_common();
 };
 
@@ -59,9 +66,7 @@ function drawGraph2(obj) {
     const idx = obj.selectedIndex;
     value2 = obj.options[idx].value;
 
-    $("#text1").val(1);
-    $("#text2").val(100000);
-
+    set_start_stop();
     draw_common();
 
 };
@@ -123,9 +128,7 @@ function selectSample(obj){
     value3 = obj.options[idx].value;
     sample_name = value3;
 
-    $("#text1").val(1);
-    $("#text2").val(100000);
-
+    set_start_stop();
     draw_common();
 }
 
