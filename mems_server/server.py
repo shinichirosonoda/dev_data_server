@@ -83,7 +83,7 @@ def draw_sample(func='2209-05'):
     else:
         sample_name , start_time, stop_time = get_information_init(func, sample_name, start_point=1, stop_point=1)
     
-    return jsonify({"sample":"sample: " + sample_name, "start_time":"stop_time: " + start_time,\
+    return jsonify({"sample":"sample: " + sample_name, "start_time":"start_time: " + start_time,\
                     "stop_time":"stop_time: " + stop_time, "max_num": max_num})
 
 @app.route("/list", methods=['post'])
