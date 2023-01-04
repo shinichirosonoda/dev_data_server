@@ -10,7 +10,6 @@ let sample_name = "";
 const start_min = 1;
 const stop_max = 100000;
 
-
 function draw_common(){
     const plotdata = document.getElementById('plotimg');
     const send_data = JSON.stringify({func: value1, mode: value2, start_point: start_point, stop_point: stop_point, sample_name: sample_name});
@@ -24,24 +23,7 @@ function draw_common(){
     .done(function(data) {
         plotdata.src = "data:image/png:base64," + data;
     })
-
     print_sample();
-}
-
-function draw_common(){
-    const plotdata = document.getElementById('plotimg');
-    const send_data = JSON.stringify({func: value1, mode: value2, start_point: start_point, stop_point: stop_point, sample_name: sample_name});
-    
-    $.ajax({
-        method: "POST",
-        url: "/plot",
-        data: send_data,
-        contentType: "application/json"
-    })
-    .done(function(data) {
-        plotdata.src = "data:image/png:base64," + data;
-    })
-    print_sample(value1);
 }
 
 function set_start_stop(){
@@ -114,7 +96,7 @@ function check_start_stop(){
     draw_common();
 }
 
-function botton(){
+function button(){
     $(function() {
         $('#button1').click(function(e) {
             e.preventDefault();  // ボタン押下時の動作を抑制
