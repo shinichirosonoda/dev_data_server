@@ -16,7 +16,8 @@ class DisplayGraph{
 
     draw_common(){
         const plotdata = document.getElementById('plotimg');
-        const send_data = JSON.stringify({func: this.value1, mode: this.value2, start_point: this.start_point, stop_point: this.stop_point, sample_name: this.sample_name});
+        const send_data = JSON.stringify({func: this.value1, mode: this.value2, start_point: this.start_point,
+                                          stop_point: this.stop_point, sample_name: this.sample_name});
     
         $.ajax({
             method: "POST",
@@ -57,14 +58,15 @@ class DisplayGraph{
     }
 
     print_sample(){
-        const send_data = JSON.stringify({func: this.value1, mode: this.value2, start_point: this.start_point, stop_point: this.stop_point, sample_name: this.sample_name});
+        const send_data = JSON.stringify({func: this.value1, mode: this.value2, start_point: this.start_point,
+                                          stop_point: this.stop_point, sample_name: this.sample_name});
         $.ajax({
             method: "POST",
             url: "/sample",
             data: send_data,
             contentType: "application/json"
         })
-        .done(function(data) {
+        .done((data) => {
         
             $("#sample").text(data.sample);
             $("#start_time").text(data.start_time);
@@ -108,7 +110,8 @@ class DisplayGraph{
     }
 
     set_sample(){
-        const send_data = JSON.stringify({func: this.value1, mode: this.value2, start_point: this.start_point, stop_point: this.stop_point, sample_name: this.sample_name});
+        const send_data = JSON.stringify({func: this.value1, mode: this.value2, start_point: this.start_point,
+                                          stop_point: this.stop_point, sample_name: this.sample_name});
 
         $.ajax({
             method: "POST",
