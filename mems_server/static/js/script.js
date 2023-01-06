@@ -1,4 +1,4 @@
-// global
+// using global variable
 let value1 = "2209-05"
 let value2 = "latest";
 let value3 = "1"
@@ -97,11 +97,9 @@ function check_start_stop(){
 }
 
 function button(){
-    $(function() {
-        $('#button1').click(function(e) {
-            e.preventDefault();  // ボタン押下時の動作を抑制
-            check_start_stop();
-        });
+    $('#button1').click(function(e) {
+        e.preventDefault();  // ボタン押下時の動作を抑制
+        check_start_stop();
     });
 }
 

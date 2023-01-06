@@ -1,4 +1,4 @@
-// class
+// using class
 const start_min = 1;
 const stop_max = 100000;
 
