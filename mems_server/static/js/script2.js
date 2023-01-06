@@ -56,6 +56,15 @@ class DisplayGraph{
         this.set_start_stop();
         this.draw_common();
     }
+    
+    check_box(box_name){
+        let num = parseInt($(box_name).val());
+        if(num > this.max_num){ $(box_name).val(this.max_num)};
+        if(num < this.min_num){ $(box_name).val(this.min_num)};
+        num = parseInt($(box_name).val());
+    
+        return num
+    }
 
     print_sample(){
         const send_data = JSON.stringify({func: this.value1, mode: this.value2, start_point: this.start_point,
@@ -73,15 +82,16 @@ class DisplayGraph{
             $("#stop_time").text(data.stop_time);
             this.max_num = data.max_num;
 
-            this.start_point = check_box("#text1", this.max_num, this.min_num);
-            this.stop_point = check_box("#text2", this.max_num, this.min_num);
+            this.start_point = this.check_box("#text1");
+            this.stop_point = this.check_box("#text2");
 
         });
     }
 
     get_start_stop() {
-        this.start_point = check_box("#text1", this.max_num, this.min_num);
-        this.stop_point = check_box("#text2", this.max_num, this.min_num);
+        this.start_point = this.check_box("#text1");
+        this.stop_point = this.check_box("#text2");
+
 
 
         if (this.start_point > this.stop_point){
@@ -130,15 +140,8 @@ class DisplayGraph{
     }
 }
 
-function check_box(box_name, max_num, min_num){
-    let num = parseInt($(box_name).val());
-    if(num > max_num){ $(box_name).val(max_num)};
-    if(num < min_num){ $(box_name).val(min_num)};
-    num = parseInt($(box_name).val());
 
-    return num
-}
-
+// html call function
 
 const dg = new DisplayGraph;
 
