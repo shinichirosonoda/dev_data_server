@@ -38,12 +38,10 @@ class DisplayGraph{
         this.stop_point = stop_max;
     }
 
-
     drawGraph(obj) {
         const idx = obj.selectedIndex;
         this.value1 = obj.options[idx].value;
         this.sample_name = "";
-
         this.set_sample();
         this.set_start_stop();
         this.draw_common();
@@ -52,7 +50,6 @@ class DisplayGraph{
     drawGraph2(obj) {
         const idx = obj.selectedIndex;
         this.value2 = obj.options[idx].value;
-
         this.set_start_stop();
         this.draw_common();
     }
@@ -62,7 +59,6 @@ class DisplayGraph{
         if(num > this.max_num){ $(box_name).val(this.max_num)};
         if(num < this.min_num){ $(box_name).val(this.min_num)};
         num = parseInt($(box_name).val());
-    
         return num
     }
 
@@ -76,7 +72,6 @@ class DisplayGraph{
             contentType: "application/json"
         })
         .done((data) => {
-        
             $("#sample").text(data.sample);
             $("#start_time").text(data.start_time);
             $("#stop_time").text(data.stop_time);
@@ -84,7 +79,6 @@ class DisplayGraph{
 
             this.start_point = this.check_box("#text1");
             this.stop_point = this.check_box("#text2");
-
         });
     }
 
@@ -92,7 +86,8 @@ class DisplayGraph{
         this.start_point = this.check_box("#text1");
         this.stop_point = this.check_box("#text2");
 
-
+        $("#text1").val(this.start_point);
+        $("#text2").val(this.stop_point);
 
         if (this.start_point > this.stop_point){
             this.stop_point = this.start_point;
