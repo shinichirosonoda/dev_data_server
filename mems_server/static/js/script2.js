@@ -4,21 +4,17 @@ const stop_max = 100000;
 
 class DisplayGraph{
     constructor() { 
-        this.value1 = "2209-05"
-        this.value2 = "latest";
-        this.value3 = "1"
-        this.start_point = 1;
-        this.stop_point = 100000;
-        this.min_num = 1;
-        this.max_num = 100000;
+        this.selector = { value1: "2209-05", value2: "latest", value3 : "1" };
+        this.points ={ start: 1, stop: 100000};
+        this.num = { min: 1, max: 100000};
         this.sample_name = "";
     }
 
     draw_common(){
         const plotdata = document.getElementById('plotimg');
-        const send_data = JSON.stringify({func: this.value1, mode: this.value2, start_point: this.start_point,
-                                          stop_point: this.stop_point, sample_name: this.sample_name});
-    
+        const send_data = JSON.stringify({func: this.selector.value1, mode: this.selector.value2, start_point: this.points.start,
+                                          stop_point: this.points.stop, sample_name: this.sample_name});
+
         $.ajax({
             method: "POST",
             url: "/plot",
@@ -34,13 +30,13 @@ class DisplayGraph{
     set_start_stop(){
         $("#text1").val(start_min);
         $("#text2").val(stop_max);
-        this.start_point = start_min;
-        this.stop_point = stop_max;
+        this.points.start = start_min;
+        this.points.stop = stop_max;
     }
 
     drawGraph(obj) {
         const idx = obj.selectedIndex;
-        this.value1 = obj.options[idx].value;
+        this.selector.value1 = obj.options[idx].value;
         this.sample_name = "";
         this.set_sample();
         this.set_start_stop();
@@ -49,22 +45,22 @@ class DisplayGraph{
 
     drawGraph2(obj) {
         const idx = obj.selectedIndex;
-        this.value2 = obj.options[idx].value;
+        this.selector.value2 = obj.options[idx].value;
         this.set_start_stop();
         this.draw_common();
     }
     
     check_box(box_name){
         let num = parseInt($(box_name).val());
-        if(num > this.max_num){ $(box_name).val(this.max_num)};
-        if(num < this.min_num){ $(box_name).val(this.min_num)};
+        if(num > this.num.max){ $(box_name).val(this.num.max) };
+        if(num < this.num.min){ $(box_name).val(this.num.min) };
         num = parseInt($(box_name).val());
         return num
     }
 
     print_sample(){
-        const send_data = JSON.stringify({func: this.value1, mode: this.value2, start_point: this.start_point,
-                                          stop_point: this.stop_point, sample_name: this.sample_name});
+        const send_data = JSON.stringify({func: this.selector.value1, mode: this.selector.value2, start_point: this.points.start,
+                                          stop_point: this.points.stop, sample_name: this.sample_name});
         $.ajax({
             method: "POST",
             url: "/sample",
@@ -75,23 +71,23 @@ class DisplayGraph{
             $("#sample").text(data.sample);
             $("#start_time").text(data.start_time);
             $("#stop_time").text(data.stop_time);
-            this.max_num = data.max_num;
+            this.num.max = data.max_num;
 
-            this.start_point = this.check_box("#text1");
-            this.stop_point = this.check_box("#text2");
+            this.points.start = this.check_box("#text1");
+            this.points.stop = this.check_box("#text2");
         });
     }
 
     get_start_stop() {
-        this.start_point = this.check_box("#text1");
-        this.stop_point = this.check_box("#text2");
+        this.points.start = this.check_box("#text1");
+        this.points.stop = this.check_box("#text2");
 
-        $("#text1").val(this.start_point);
-        $("#text2").val(this.stop_point);
+        $("#text1").val(this.points.start);
+        $("#text2").val(this.points.stop);
 
-        if (this.start_point > this.stop_point){
-            this.stop_point = this.start_point;
-            $("#text2").val(this.stop_point);
+        if (this.points.start > this.points.stop){
+            this.points.stop = this.points.start;
+            $("#text2").val(this.points.stop);
         }
 
         this.print_sample()
@@ -107,16 +103,16 @@ class DisplayGraph{
 
     selectSample(obj){
         const idx = obj.selectedIndex;
-        this.value3 = obj.options[idx].value;
-        this.sample_name = this.value3;
+        this.selector.value3 = obj.options[idx].value;
+        this.sample_name = this.selector.value3;
 
         this.set_start_stop();
         this.draw_common();
     }
 
     set_sample(){
-        const send_data = JSON.stringify({func: this.value1, mode: this.value2, start_point: this.start_point,
-                                          stop_point: this.stop_point, sample_name: this.sample_name});
+        const send_data = JSON.stringify({func: this.selector.value1, mode: this.selector.value2, start_point: this.points.start,
+                                          stop_point: this.points.stop, sample_name: this.sample_name});
 
         $.ajax({
             method: "POST",
@@ -135,9 +131,7 @@ class DisplayGraph{
     }
 }
 
-
-// html call function
-
+// Call function from HTML
 const dg = new DisplayGraph;
 
 function drawGraph(obj) {
