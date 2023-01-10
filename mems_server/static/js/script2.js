@@ -5,8 +5,8 @@ const stop_max = 100000;
 class DisplayGraph{
     constructor() { 
         this.selector = { value1: "2209-05", value2: "latest", value3 : "1" };
-        this.points ={ start: 1, stop: 100000};
-        this.num = { min: 1, max: 100000};
+        this.points ={ start: start_min, stop: stop_max};
+        this.num = { min: start_min, max: stop_max};
         this.sample_name = "";
     }
 
