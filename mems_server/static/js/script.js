@@ -5,7 +5,7 @@ let value3 = "1"
 let start_point = 1;
 let stop_point = 100000;
 let min_num = 1;
-let max_num = 0;
+let max_num = 100000;
 let sample_name = "";
 const start_min = 1;
 const stop_max = 100000;
@@ -97,7 +97,7 @@ function check_start_stop(){
 }
 
 function button(){
-    $('#button1').click(function(e) {
+    $('#button1').on('click', function(e) {
         e.preventDefault();  // ボタン押下時の動作を抑制
         check_start_stop();
     });
