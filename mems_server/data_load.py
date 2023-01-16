@@ -1,13 +1,46 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import glob
+from single_search_load import get_all_single_search_files, single_scan_dataframe,\
+                               original_scan_data_dataframe
 
-items = ["delay_fast", "delay_slow", "vpp_sum2", "vpp_sum1", "Ch1_word", "Ch2_word", "Ch1_Amp", "Ch2_Amp"]
-color =["b", "r", "b", "r", "b", "r", "b", "r"]
-axis = ["Phase (clocks)", "Phase (clocks)", "Vpp (14bit x 100)", "Vpp (14bit x 100)",\
-             "Frequency (word)", "Frequency (word)", "Voltage (volt)", "Voltage (volt)"]
+items_1 = ["delay_fast", "delay_slow", "vpp_sum2", "vpp_sum1", "Ch1_word", "Ch2_word", "Ch1_Amp", "Ch2_Amp",\
+           "fast_vpp_freq", "slow_vpp_freq", "fast_phase_freq", "slow_phase_freq",\
+           "fast_vpp_list", "slow_vpp_list", "fast_phase_list", "slow_phase_list"]
+
+items_2 = ["temperature", "temperature", "temperature", "temperature", "temperature", "temperature", "temperature", "temperature",\
+           "temperature", "temperature", "temperature", "temperature", "", "", "", ""]
+
+color =["b", "r", "b", "r", "b", "r", "b", "r", "b", "r", "b", "r", "", ""]
+
+axis_1 = ["Phase (clocks)", "Phase (clocks)", "Vpp (14bit x 100)", "Vpp (14bit x 100)",\
+          "Frequency (word)", "Frequency (word)", "Voltage (volt)", "Voltage (volt)",\
+          "Frequency (word)", "Frequency (word)", "Frequency (word)", "Frequency (word)",\
+          "Vpp (14bit x 100)", "Vpp (14bit x 100)", "Phase (clocks)", "Phase (clocks)"]
+
+axis_2 = ["Temperature (deg)", "Temperature (deg)", "Temperature (deg)", "Temperature (deg)",\
+          "Temperature (deg)", "Temperature (deg)", "Temperature (deg)", "Temperature (deg)",\
+          "Temperature (deg)", "Temperature (deg)", "Temperature (deg)", "Temperature (deg)",\
+          "", "", "", ""]
+
 titles = ["Phase_fast", "Phase_slow", "Vpp_fast", "Vpp_slow",\
-             "Frequency_fast", "Frequency_slow", "Voltage_fast", "Voltage_slow"]
+          "Frequency_fast", "Frequency_slow", "Voltage_fast", "Voltage_slow",\
+          "Peak search using Vpp fast", "Peak search using Vpp slow", "Using phase fast", "Using phase slow",
+          "Fast Vpp at Single Scan", "Slow Vpp at Single Scan",\
+          "Fast phase at Single Scan", "Slow phase at Single Scan"]
+
+x_axis_label = ["Time", "Time", "Time", "Time",\
+                "Time", "Time", "Time", "Time",\
+                "Time", "Time", "Time", "Time",\
+                "fast_freq_list", "slow_freq_list",\
+                "fast_freq_list", "slow_freq_list"]
+
+x_axis_label_title = ["Time", "Time", "Time", "Time",\
+                "Time", "Time", "Time", "Time",\
+                "Time", "Time", "Time", "Time",\
+                "Frequency (word)", "Frequency (word)",\
+                "Frequency (word)", "Frequency (word)"]
+
 
 
 def get_all_sample_name(board_name):
@@ -50,8 +83,8 @@ def get_all_files(board_name, sample, start_num = 1, stop_num = 1000000):
 def select_path(name):
     return "../long_data/{}/*.csv".format(name)
 
-def select_sample_path(name, sample):
-    return "../long_data/{}/*_{}.csv".format(name, sample)
+def select_sample_path(name, sample, file_type="csv"):
+    return "../long_data/{}/*_{}.{}".format(name, sample, file_type)
 
 def get_dataframe(file_name):
     if file_name is not None:
@@ -101,19 +134,15 @@ def get_information_init(board_name, sample, start_point=1, stop_point=10000):
         return "", "", ""
 
 
-def draw_graph2(df_array, i, ax1, fig):
+def draw_graph2(df_array, i, ax1, fig, df_array_sub = None):
     if df_array == []:
         return
+
     ax2 = ax1.twinx()
 
     ax1.set_xlabel("Time", size=10)
-    ax1.set_ylabel(axis[i], size=10)
-    ax2.set_ylabel("Temperature (deg)", size=10)
-
-    for df in df_array:
-        time = pd.to_datetime(df["Time"])
-        ax1.plot(time, df[items[i]], color=color[i])
-        ax2.plot(time, df["temperature"], color="g")
+    ax1.set_ylabel(axis_1[i], size=10)
+    ax2.set_ylabel(axis_2[i], size=10)
 
     time_start = pd.to_datetime(df_array[0]["Time"])
     time_stop = pd.to_datetime(df_array[len(df_array)-1]["Time"])
@@ -125,11 +154,39 @@ def draw_graph2(df_array, i, ax1, fig):
     ax2.tick_params(axis='y', labelsize=8)
 
     ax1.set_title(titles[i], size=10)
-    fig.subplots_adjust(wspace=0.3, hspace=0.3)
+    fig.subplots_adjust(wspace=0.3, hspace=0.5)
     ax1.set_xlim(xmin,xmax)
     ax1.set_xticks([xmin, xmax]) 
     ax1.set_xticklabels([xmin, xmax])
 
+    if df_array_sub is not None:
+        df_array = df_array_sub
+    
+    if df_array == []:
+        return
+
+    for df in df_array:
+        time = pd.to_datetime(df["Time"])
+        ax1.plot(time, df[items_1[i]], color=color[i])
+        ax2.plot(time, df[items_2[i]], color="g")
+
+    
+
+def draw_graph3(df_array, i, ax1, fig):
+    if df_array == []:
+        return
+
+    ax1.set_xlabel(x_axis_label_title[i], size=10)
+    ax1.set_ylabel(axis_1[i], size=10)
+
+    ax1.tick_params(axis='x', labelsize=8)
+    ax1.tick_params(axis='y', labelsize=8)
+    
+    ax1.set_title(titles[i], size=10)
+    fig.subplots_adjust(wspace=0.3, hspace=0.5)
+
+    for df in df_array:
+        ax1.plot(df[x_axis_label[i]], df[items_1[i]])
 
 def draw_multi_graph2(fig, board_name="2209-05", sample="AT1910305", start_point=1, stop_point=10000):
     files = get_all_files(board_name, sample, start_num=start_point, stop_num=stop_point)
@@ -138,21 +195,32 @@ def draw_multi_graph2(fig, board_name="2209-05", sample="AT1910305", start_point
         df_array.append(get_dataframe(file_name))
 
     for i in range(8):
-        ax = fig.add_subplot(4, 2, i+1)
+        ax = fig.add_subplot(8, 2, i+1)
         draw_graph2(df_array, i, ax, fig)
+
+    files2 = get_all_single_search_files(board_name, sample)
+    df_array2 = [single_scan_dataframe(files2)]
+
+    for i in range(8, 12):
+        ax = fig.add_subplot(8, 2, i+1)
+        draw_graph2(df_array, i, ax, fig, df_array_sub=df_array2)
+    
+    files3 = get_all_single_search_files(board_name, sample)
+    df_array3 = original_scan_data_dataframe(files3)
+
+    
+    for i in range(12, 16):
+        ax = fig.add_subplot(8, 2, i+1)
+        draw_graph3(df_array3, i, ax, fig)
+    
 
     return fig
 
 
 if __name__ == '__main__':
-
-    print(get_information("2209-05"))
-    file_name = get_latest_file("2209-05")
+    file_name = get_latest_file("2209-08")
     print(file_name)
-    fig = plt.figure(figsize=(15,15))
-    fig = draw_multi_graph2(fig)
+    fig = plt.figure(figsize=(15,30))
+    fig = draw_multi_graph2(fig, board_name="2209-08", sample="AT1930303")
     plt.show()
 
-    fig = plt.figure(figsize=(15,15))
-    fig = draw_multi_graph(fig)
-    plt.show()

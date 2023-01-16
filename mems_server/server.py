@@ -1,6 +1,6 @@
 #app.py
-from cgitb import text
-from telnetlib import XASCII
+#from cgitb import text
+#from telnetlib import XASCII
 from flask import Flask, render_template, request, jsonify
 from flask_httpauth import HTTPBasicAuth
 
@@ -47,7 +47,7 @@ def plot_graph(func='2209-05_latest'):
     request.json["sample_name"]
 
     func = func.split('_')[0]
-    fig = Figure(figsize=(15,15))
+    fig = Figure(figsize=(20,20))
     
     if sample_name == "":
         sample_name, _, _ , _= get_information(func, sample_name, flag=False)

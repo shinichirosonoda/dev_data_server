@@ -2,3 +2,9 @@
 2022-11-10 12:54:03,434 ERROR    gui_menu_2.2.0     stop        590:  AttributeError: drive_phase_zero
 2022-11-11 19:28:05,714 ERROR    gui_menu_2.2.0     Mems_load_conf  119: KeyError: The Sample_Name is incorrect.
 2022-11-11 19:28:13,109 ERROR    gui_menu_2.2.0     stop        596:  AttributeError: drive_phase_zero
+2022-12-23 10:33:49,870 ERROR    gui_menu_3.0.0     Mems_load_conf  130: KeyError: The Sample_Name is incorrect.
+2022-12-23 10:33:51,011 ERROR    gui_menu_3.0.0     stop        620:  AttributeError: drive_phase_zero
+2022-12-26 09:27:28,432 ERROR    gui_menu_3.0.0     Mems_load_conf  133: KeyError: The Sample_Name is incorrect.
+2022-12-26 09:27:29,929 ERROR    gui_menu_3.0.0     stop        623:  AttributeError: drive_phase_zero
+2022-12-26 09:28:29,318 ERROR    gui_menu_3.0.0     Mems_load_conf  133: KeyError: The Sample_Name is incorrect.
+2022-12-26 09:28:30,630 ERROR    gui_menu_3.0.0     stop        623:  AttributeError: drive_phase_zero
