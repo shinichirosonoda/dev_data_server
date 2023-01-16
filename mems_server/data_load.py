@@ -16,7 +16,7 @@ color =["b", "r", "b", "r", "b", "r", "b", "r", "b", "r", "b", "r", "", ""]
 axis_1 = ["Phase (clocks)", "Phase (clocks)", "Vpp (14bit x 100)", "Vpp (14bit x 100)",\
           "Frequency (word)", "Frequency (word)", "Voltage (volt)", "Voltage (volt)",\
           "Frequency (word)", "Frequency (word)", "Frequency (word)", "Frequency (word)",\
-          "Vpp (14bit x 100)", "Vpp (14bit x 100)", "Phase (clocks)", "Phase (clocks)"]
+          "Vpp (14bit)", "Vpp (14bit)", "Phase (clocks)", "Phase (clocks)"]
 
 axis_2 = ["Temperature (deg)", "Temperature (deg)", "Temperature (deg)", "Temperature (deg)",\
           "Temperature (deg)", "Temperature (deg)", "Temperature (deg)", "Temperature (deg)",\

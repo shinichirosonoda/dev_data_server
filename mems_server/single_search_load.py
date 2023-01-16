@@ -134,8 +134,8 @@ def original_scan_data_dataframe(files):
         data_org = f.read()
         f.close()
         data = data_to_dict(data_org)
-        data_df = [data["slow_freq_list"], data["slow_phase_list"], data["slow_vpp_list"],\
-                   data["fast_freq_list"], data["fast_phase_list"], data["fast_vpp_list"]]
+        data_df = [data["slow_freq_list"], data["slow_phase_list"], median1d(data["slow_vpp_list"]),\
+                   data["fast_freq_list"], data["fast_phase_list"], median1d(data["fast_vpp_list"])]
         df = pd.DataFrame(np.array(data_df).T, columns=cols) 
         
         df_array.append(df)
