@@ -54,7 +54,10 @@ def peak_serch(x_data, y_data):
     return x, y
 
 def get_res_pos(data, th):
-    return np.where((data > th*0.9) & (data < th*1.1))[0][0]
+    if len(np.where((data > th*0.9) & (data < th*1.1))[0]) > 0:
+        return np.where((data > th*0.9) & (data < th*1.1))[0][0]
+    else:
+        return 0
 
 
 def get_peak(file_name, plot_draw=True):
