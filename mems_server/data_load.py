@@ -26,8 +26,8 @@ axis_2 = ["Temperature (deg)", "Temperature (deg)", "Temperature (deg)", "Temper
 titles = ["Phase_fast", "Phase_slow", "Vpp_fast", "Vpp_slow",\
           "Frequency_fast", "Frequency_slow", "Voltage_fast", "Voltage_slow",\
           "Peak search using Vpp fast", "Peak search using Vpp slow", "Peak search using phase fast", "Peak search using phase slow",
-          "Fast Vpp at Single Scan", "Slow Vpp at Single Scan",\
-          "Fast phase at Single Scan", "Slow phase at Single Scan"]
+          "Fast Vpp at Single axis Scan", "Slow Vpp at Single axis Scan",\
+          "Fast phase at Single axis Scan", "Slow phase at Single axis Scan"]
 
 x_axis_label = ["Time", "Time", "Time", "Time",\
                 "Time", "Time", "Time", "Time",\

@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 from datetime import datetime as dt
+import os
 
 
 def select_sample_path(name, sample, file_type="csv"):
@@ -65,7 +66,10 @@ def get_peak(file_name, plot_draw=True):
     data_org = f.read()
     f.close()
 
-    time_str = file_name.split("_")[-2].split("\\")[-1]
+    if os.name == 'nt':
+        time_str = file_name.split("_")[-2].split("\\")[-1]
+    else:
+        time_str = file_name.split("_")[-2].split("/")[-1]
     tdatetime = dt.strptime(time_str, '%Y-%m-%d-%H-%M-%S')
 
     ex_data = data_to_dict(data_org)
