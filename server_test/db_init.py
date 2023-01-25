@@ -2,21 +2,22 @@
 import os, sqlite3
 
 # define DB
-sql_method_1 = '''
+sql_method_1 = """
                CREATE TABLE board(
                id INTEGER PRIMARY KEY AUTOINCREMENT,
-               board_id INTEGER,
+               board_id TEXT,
                file_path  TEXT,
-               value INTEGER,
+               flag TEXT,
                date TEXT
                )
-               '''
+               """
+               
 
-#db_path_1 = './sqlite/mems.db'
-#old_path_1 = './sqlite/mems_old.db'
+db_path_1 = './db/mems.db'
+old_path_1 = './db/mems_old.db'
 
-db_path_1 = './mesm.db'
-old_path_1 = './mesm.db'
+#db_path_1 = './mems.db'
+#old_path_1 = './mems_old.db'
 
 # DB initiarize
 def db_init(db_path, old_path, sql_method):
