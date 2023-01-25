@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import datetime, os, sqlite3
+import datetime, sqlite3
 
 db_path = './db/mems.db'
 #db_path = './mems.db'
@@ -75,5 +75,5 @@ if __name__ == '__main__':
     print("P3:", pick_up_data("2209-05"))
     print("P4:", update_data("2209-05", "./test_data1.csv","True"))
     print("P5:", pick_up_data("2209-05"))
-    print("P6:", delete_data("2209-05"))
-    print("P7:", pick_up_data("2209-05"))
+    #print("P6:", delete_data("2209-05"))
+    #print("P7:", pick_up_data("2209-05"))
