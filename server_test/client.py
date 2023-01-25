@@ -18,8 +18,8 @@ flag ="False"
 json_data = json.dumps({'board_id': board_id, "file_name": file_name, "flag": flag}).encode('utf-8')
 
 # HTTPリクエストを送信
-#response = requests.post("http://localhost:8080/data_create", data=json_data)
-response = requests.get("http://localhost:8080/")
+response = requests.post("http://localhost:8080/data_create", data=json_data)
+#response = requests.get("http://localhost:8080/")
     
     
 #print('{0} printer_id:{1}'.format(response.status_code, json.loads(response.text)["printer_id"]))
