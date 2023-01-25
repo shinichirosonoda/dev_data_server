@@ -14,10 +14,11 @@ def json2data(data):
     board_id, file_name, flag = data_json['board_id'], data_json['file_name'], data_json['flag']
     return board_id, file_name, flag
 
-def data2json(board_id, file_name, flag):
+def data2json(board_id, file_name, flag, time):
     return json.dumps({"board_id":"{}".format(board_id),\
                        "file_name":"{}".format(file_name),\
-                       "flag":"{}".format(flag)})
+                       "flag":"{}".format(flag),\
+                       "time":"{}".format(time)})
 
 
 @app.route('/data_create', methods=['POST'])
@@ -46,11 +47,10 @@ def f_pick_up_data():
 
     # data取り出し
     if data != []:
-        print(data[0][1], data[0][2], data[0][3])     
-        board_id, file_name, flag = data[0][1], data[0][2], data[0][3]
+        board_id, file_name, flag , time= data[0][1], data[0][2], data[0][3], data[0][4]
     
         # JSONに変換
-        data = data2json(board_id, file_name, flag)
+        data = data2json(board_id, file_name, flag, time)
         return Response(response=data, status=200)
     else:
         return Response(response="None", status=200)
@@ -60,15 +60,17 @@ def f_update_data():
     # jsonから変換
     data = request.data.decode('utf-8')
     board_id, file_name, flag = json2data(data)
-    print(flag)
 
     # DBにレコードを作成
     data = update_data(board_id, file_name, flag)
 
     # data取り出し   
-    board_id, file_name, flag = data[0][0], data[0][1], data[0][2]
+    board_id, file_name, flag , time= data[0][1], data[0][2], data[0][3], data[0][4]
 
-    return Response(response=data2json(board_id, file_name, flag), status=200)
+    # JSONに変換
+    data = data2json(board_id, file_name, flag, time)
+
+    return Response(response=time, status=200)
 
 @app.route('/delete_data', methods=['POST'])
 def f_delete_data():
