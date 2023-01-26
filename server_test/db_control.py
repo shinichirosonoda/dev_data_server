@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 import datetime, sqlite3
 
-db_path = './db/mems.db'
-#db_path = './mems.db'
+db_path = './db/mems_board.db'
+#db_path = './mems_board.db'
 
 
 # board_id, file_path, flag, dateを持つデータを生成する。(mems.db)

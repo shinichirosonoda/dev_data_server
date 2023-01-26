@@ -13,8 +13,8 @@ sql_method_1 = """
                """
                
 
-db_path_1 = './db/mems.db'
-old_path_1 = './db/mems_old.db'
+db_path_1 = './db/mems_board.db'
+old_path_1 = './db/mems_board_old.db'
 
 #db_path_1 = './mems.db'
 #old_path_1 = './mems_old.db'
