@@ -11,8 +11,6 @@ def data_create_board(data):
     board_id = data["board_id"]
     file_name = data["file_name"]
     mes_mode = data["mes_mode"]
-    print(data)
-    print( sample_name, board_id, file_name, mes_mode)
 
     conn = sqlite3.connect(db_path1)
     c = conn.cursor()
