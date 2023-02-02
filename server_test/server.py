@@ -7,7 +7,8 @@ app = Flask(__name__)
 from db_init import db_init_main
 db_init_main()
 
-from db_control import data_create, pick_up_data, update_data, delete_data
+from db_control import data_create_board, data_create_fov,\
+                       pick_up_board_id, pick_up_sample_name, pick_up_id
 
 def json2data(data):
     data_json = json.loads(data)
@@ -21,65 +22,73 @@ def data2json(board_id, file_name, flag, time):
                        "time":"{}".format(time)})
 
 
-@app.route('/data_create', methods=['POST'])
-def f_data_create():
+@app.route('/data_create_board', methods=['POST'])
+def f_data_create_board():
     # jsonから変換
-    data = request.data.decode('utf-8')
-    board_id, file_name, flag = json2data(data)
-    print(board_id, file_name, flag)
+    data_json = request.data.decode('utf-8')
+    data_dict = json.loads(data_json)
+
+    print(data_json)
 
     # DBにレコードを作成
-    id = data_create(board_id, file_name, flag)
+    id = data_create_board(data_dict)
+    print('id= ',id)
+
+    # HTTPレスポンスを送信
+    return Response(response=json.dumps({"message": "{} was recieved".format(id)}), status=200)
+
+@app.route('/data_create_fov', methods=['POST'])
+def f_data_create_fov():
+    # jsonから変換
+    data_json = request.data.decode('utf-8')
+    data_dict = json.loads(data_json)
+
+    print(data_json)
+
+    # DBにレコードを作成
+    id = data_create_fov(data_dict)
     print('id= ',id)
 
     # HTTPレスポンスを送信
     return Response(response=json.dumps({"message": "{} was recieved".format(id)}), status=200)
     
 
-@app.route('/pick_up_data', methods=['POST'])
-def f_pick_up_data():
+@app.route('/pick_up_board_id', methods=['POST'])
+def f_pick_up_board_id():
     # jsonから変換
-    data = request.data.decode('utf-8')
-    board_id, _, _ = json2data(data)
+    data_json = request.data.decode('utf-8')
+    data_dict = json2data(data_json)
+    board_id = data_dict["board_id"]
     
     # DBを読み出し   
-    data = pick_up_data(board_id)
+    data = pick_up_board_id(board_id)
+    print(data)
 
-    # data取り出し
-    if data != []:
-        board_id, file_name, flag , time= data[0][1], data[0][2], data[0][3], data[0][4]
-    
-        # JSONに変換
-        data = data2json(board_id, file_name, flag, time)
-        return Response(response=data, status=200)
-    else:
-        return Response(response="None", status=200)
+    return Response(response=data, status=200)
 
-@app.route('/update_data', methods=['POST'])
-def f_update_data():
+@app.route('/pick_up_sample_name', methods=['POST'])
+def f_pick_up_sample_name():
     # jsonから変換
-    data = request.data.decode('utf-8')
-    board_id, file_name, flag = json2data(data)
-
-    # DBにレコードを作成
-    data = update_data(board_id, file_name, flag)
-
-    # data取り出し   
-    board_id, file_name, flag , time= data[0][1], data[0][2], data[0][3], data[0][4]
-
-    # JSONに変換
-    data = data2json(board_id, file_name, flag, time)
-
-    return Response(response=time, status=200)
-
-@app.route('/delete_data', methods=['POST'])
-def f_delete_data():
-    # jsonから変換
-    data = request.data.decode('utf-8')
-    board_id, _, _ = json2data(data)
+    data_json = request.data.decode('utf-8')
+    data_dict = json2data(data_json)
+    sample_name = data_dict["sample_name"]
     
     # DBを読み出し   
-    data = delete_data(board_id)
+    data = pick_up_sample_name(sample_name)
+    print(data)
+
+    return Response(response=data, status=200)
+
+@app.route('/pick_up_id', methods=['POST'])
+def f_pick_up_id():
+    # jsonから変換
+    data_json = request.data.decode('utf-8')
+    data_dict = json2data(data_json)
+    id = data_dict["id"]
+    
+    # DBを読み出し   
+    data = pick_up_id(id)
+    print(data)
 
     return Response(response=data, status=200)
 

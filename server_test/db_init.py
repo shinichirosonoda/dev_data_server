@@ -5,19 +5,33 @@ import os, sqlite3
 sql_method_1 = """
                CREATE TABLE board(
                id INTEGER PRIMARY KEY AUTOINCREMENT,
+               sample_name TEXT,
                board_id TEXT,
-               file_path  TEXT,
-               flag TEXT,
+               file_name TEXT,
+               mes_mode TEXT,
                date TEXT
                )
                """
-               
 
 db_path_1 = './db/mems_board.db'
-old_path_1 = './db/mems_board_old.db'
+old_path_1 = './db/mems_bord_old.db'
 
-#db_path_1 = './mems.db'
-#old_path_1 = './mems_old.db'
+sql_method_2 = """
+               CREATE TABLE board(
+               id INTEGER PRIMARY KEY AUTOINCREMENT,
+               experiment_id INTEGER,
+               sample_name TEXT,
+               board_id TEXT,
+               fov_id TEXT,
+               camera_id TEXT,
+               file_name TEXT,
+               date TEXT
+               )
+               """
+
+db_path_2 = './db/mems_fov.db'
+old_path_2 = './db/mems_fov_old.db'
+
 
 # DB initiarize
 def db_init(db_path, old_path, sql_method):
@@ -43,6 +57,7 @@ def db_init(db_path, old_path, sql_method):
 
 def db_init_main():
     db_init(db_path_1, old_path_1, sql_method_1)
+    db_init(db_path_2, old_path_2, sql_method_2)
 
 if __name__ == '__main__':
     db_init_main()

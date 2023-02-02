@@ -1,29 +1,81 @@
 # -*- coding: utf-8 -*-
 import datetime, sqlite3
 
-db_path = './db/mems_board.db'
-#db_path = './mems_board.db'
+db_path1 = './db/mems_board.db'
+db_path2 = './db/mems_fov.db'
 
 
-# board_id, file_path, flag, dateを持つデータを生成する。(mems.db)
-def data_create(board_id, file_name, flag):
-    conn = sqlite3.connect(db_path)
+# mems_board.dbの発番を行う。
+def data_create_board(data):
+    sample_name = data["sample_name"]
+    board_id = data["board_id"]
+    file_name = data["file_name"]
+    mes_mode = data["mes_mode"]
+    print(data)
+    print( sample_name, board_id, file_name, mes_mode)
+
+    conn = sqlite3.connect(db_path1)
     c = conn.cursor()
     dt_now = datetime.datetime.now()
     date = dt_now.strftime('%Y-%m-%d %H:%M:%S')
 
-    text = 'insert into board(board_id, file_path, flag, date) values(?,?,?,?)'
-    c.execute(text, (board_id, file_name, flag, str(date)))
+    text = 'insert into board(sample_name,\
+                              board_id,\
+                              file_name,\
+                              mes_mode,\
+                              date) values(?,?,?,?,?)'
+    
+    c.execute(text, (sample_name,\
+                     board_id,\
+                     file_name,\
+                     mes_mode,\
+                     date))
+    
     data = c.lastrowid
     conn.commit()
     conn.close()
 
     return data
 
+# mems_fov.dbの発番を行う。
+def data_create_fov(data):
+    experiment_id = data["experiment_id"]
+    sample_name = data["sample_name"]
+    board_id = data["board_id"]
+    fov_id = data["fov_id"]
+    camera_id = data["camera_id"]
+    file_name = data["file_name"]
 
-# board_idのデータを取り出す。(mems.db)
-def pick_up_data(board_id):
-    conn = sqlite3.connect(db_path)
+    conn = sqlite3.connect(db_path2)
+    c = conn.cursor()
+    dt_now = datetime.datetime.now()
+    date = dt_now.strftime('%Y-%m-%d %H:%M:%S')
+
+    text = 'insert into board(experiment_id,\
+                              sample_name,\
+                              board_id,\
+                              fov_id,\
+                              camera_id,\
+                              file_name,\
+                              date) values(?,?,?,?,?,?,?)'
+    
+    c.execute(text, (experiment_id,\
+                     sample_name,\
+                     board_id,\
+                     fov_id,\
+                     camera_id,\
+                     file_name,\
+                     date))
+    
+    data = c.lastrowid
+    conn.commit()
+    conn.close()
+
+    return data
+
+# board_idのデータを取り出す。(mems_board.db, mems_fov.db)
+def pick_up_board_id(board_id, path):
+    conn = sqlite3.connect(path)
     c = conn.cursor()
     text = 'select * from board where board_id = ?'
     c.execute(text, (board_id,))
@@ -34,21 +86,12 @@ def pick_up_data(board_id):
 
     return data
 
-# boardのデータのfile_path, flag, dateを書き換える。(mems.db)
-def update_data(board_id, file_name, flag):
-    conn = sqlite3.connect(db_path)
+# sample_nameのデータを取り出す。(mems_board.db, mems_fov.db)
+def pick_up_sample_name(sample_name, path):
+    conn = sqlite3.connect(path)
     c = conn.cursor()
-    dt_now = datetime.datetime.now()
-    date = dt_now.strftime('%Y-%m-%d %H:%M:%S')
-
-    text = 'update board set file_path = ? where board_id = ?'
-    c.execute(text,(file_name, board_id))
-    text = 'update board set flag = ? where board_id = ?'
-    c.execute(text,(flag, board_id))
-    text = 'update board set date = ? where board_id = ?'
-    c.execute(text,(str(date), board_id))
-
-    c.execute('select * from board')
+    text = 'select * from board where sample_name = ?'
+    c.execute(text, (sample_name,))
     data = c.fetchall()
 
     conn.commit()
@@ -56,28 +99,40 @@ def update_data(board_id, file_name, flag):
 
     return data
 
-# 特定のboard_idのデータを削除する関数。(mems.db)
-def delete_data(board_id):
-    conn = sqlite3.connect(db_path)
+# idのデータを取り出す。(mems_board.db, mems_fov.db)
+def pick_up_id(id, path):
+    conn = sqlite3.connect(path)
     c = conn.cursor()
-    text = 'delete from board where board_id = ?'
-    c.execute(text, (board_id,))
-
-    c.execute('select * from board')
+    text = 'select * from board where id = ?'
+    c.execute(text, (id,))
     data = c.fetchall()
 
     conn.commit()
     conn.close()
 
     return data
-
 
 if __name__ == '__main__':
-  
-    print("P1:", data_create("2209-05", "./test_data1.csv","False"))
-    print("P2:", data_create("2209-06", "./test_data2.csv","False"))
-    print("P3:", pick_up_data("2209-05"))
-    print("P4:", update_data("2209-05", "./test_data1.csv","True"))
-    print("P5:", pick_up_data("2209-05"))
-    #print("P6:", delete_data("2209-05"))
-    #print("P7:", pick_up_data("2209-05"))
+    data = {"sample_name": "1w01",\
+            "board_id": "2209-05",\
+            "file_name": "2023-02-02_13-27-00_1w01.csv",\
+            "mes_mode": "start"}
+    id = data_create_board(data)
+    print(id)
+    output_data = pick_up_id(id, db_path1)
+    sample_name = output_data[0][1]
+    board_id = output_data[0][2]
+
+    data = {"experiment_id": id,
+            "sample_name": sample_name,
+            "board_id": board_id,
+            "fov_id":  "LTE-01",
+            "camera_id": "AA01234",
+            "file_name": "2023-02-02_13-27-00_1w01_fov.csv"}
+    
+    id = data_create_fov(data)
+    print(id)
+    output_data = pick_up_id(id, db_path2)
+    print(output_data)
+    print(pick_up_sample_name("1w01", db_path1))
+    print(pick_up_sample_name("1w01", db_path2))
