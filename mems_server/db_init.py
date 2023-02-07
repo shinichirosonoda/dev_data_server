@@ -13,8 +13,13 @@ sql_method_1 = """
                )
                """
 
+"""
 db_path_1 = './db/mems_board.db'
-old_path_1 = './db/mems_bord_old.db'
+old_path_1 = './db/mems_borad_old.db'
+"""
+db_path_1 = 'E:/git2/dev_data_server/mems_server/db/mems_board.db'
+old_path_1 = 'E:/git2/dev_data_server/mems_server/db/mems_borad_old.db'
+
 
 sql_method_2 = """
                CREATE TABLE board(
@@ -28,10 +33,12 @@ sql_method_2 = """
                date TEXT
                )
                """
-
+"""
 db_path_2 = './db/mems_fov.db'
 old_path_2 = './db/mems_fov_old.db'
-
+"""
+db_path_2 = 'E:/git2/dev_data_server/mems_server/db/mems_fov.db'
+old_path_2 = 'E:/git2/dev_data_server/mems_server/db/mems_fov_old.db'
 
 # DB initiarize
 def db_init(db_path, old_path, sql_method):
