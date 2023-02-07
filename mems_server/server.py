@@ -14,10 +14,18 @@ import ctypes
 import os
 
 import json
+import argparse
+
+# data logging setting
+parser = argparse.ArgumentParser(description='mems_server')
+parser.add_argument('-db_init', help='db_init', action='store_true')
+
+args = parser.parse_args()
 
 # DBの初期化
-from db_init import db_init_main
-db_init_main()
+if args.db_init:
+    from db_init import db_init_main
+    db_init_main()
 
 from db_control import data_create_board, data_create_fov,\
                        pick_up_board_id, pick_up_sample_name, pick_up_id
