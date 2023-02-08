@@ -1,10 +1,4 @@
 import pandas as pd
-#import matplotlib.pyplot as plt
-#import glob
-"""
-from single_search_load import get_all_single_search_files, single_scan_dataframe,\
-                               original_scan_data_dataframe
-"""
 from single_search_load import get_all_single_search_files_db, single_scan_dataframe,\
                                original_scan_data_dataframe
 
@@ -60,58 +54,21 @@ x_axis_label_title = ["Time", "Time",\
                       "Frequency (word)", "Frequency (word)",\
                       "Frequency (word)", "Frequency (word)"]
 
-"""
-def get_all_sample_name(board_name):
-    try:
-        path = select_path(board_name)
-        files = sorted(glob.glob(path), reverse=True)
-        sample_list = list(map(lambda file: file.split('_')[-1][:-4], files))
-        sample_list = sorted(set(sample_list), key=sample_list.index)
-        return sample_list
-    except:
-        return
-"""
+
 def get_all_sample_name_db(board_name):
     list1 = [x[1] for x in pick_up_board_id(board_name, db_path1)]
     list2 = sorted(set(list1), key=list1.index)
     list2.reverse()
     return list2
 
-"""
-def get_latest_file(board_name):
-    try:
-        path = select_path(board_name)
-        files = sorted(glob.glob(path))
-        return files[-1]
-    except:
-        return
-"""
+
 def get_latest_file_db(board_name):
     try:
         list1 = [x[3] for x in pick_up_board_id_mes_mode(board_name, "start", db_path1)]
         return list1[-1]
     except:
         return
-"""
-def get_all_files(board_name, sample, start_num = 1, stop_num = 1000000):
-    try:
-        path = select_sample_path(board_name, sample)
-        files = sorted(glob.glob(path))
-        
-        end_point =  len(files) - start_num + 1
-        strat_point = len(files) - stop_num
 
-        if strat_point < 0:
-           strat_point = 0
-        if strat_point > end_point:
-           strat_point = end_point
-
-        files = [file  for file in files[strat_point:end_point] ]
-
-        return files
-    except:
-        return
-"""   
 def get_all_files_db(board_name, sample, start_num = 1, stop_num = 1000000):
     files = [x[3] for x in pick_up_sample_board_id_mes_mode(sample, board_name, "start", db_path1)]
     end_point =  len(files) - start_num + 1
@@ -126,21 +83,12 @@ def get_all_files_db(board_name, sample, start_num = 1, stop_num = 1000000):
 
     return files
 
-"""
-def select_path(name):
-    return "../long_data/{}/*.csv".format(name)
-
-def select_sample_path(name, sample, file_type="csv"):
-    return "../long_data/{}/*_{}.{}".format(name, sample, file_type)
-"""
-
 def get_dataframe(file_name):
     if file_name is not None:
         df = pd.read_csv(file_name, index_col=0)
         return df
 
 def get_information(board_name, sample_name, flag=True):
-    #file_name = get_latest_file(board_name)
     file_name = get_latest_file_db(board_name)
    
     if file_name is None:
@@ -151,15 +99,12 @@ def get_information(board_name, sample_name, flag=True):
     if flag == False:
         sample_name = (lambda file: file.split('_')[-1][:-4])(file_name)
 
-    #max_num = len(get_all_files(board_name, sample_name))
     max_num = len(get_all_files_db(board_name, sample_name))
     start_time = df["Time"][0]
     stop_time = df["Time"][len(df["Time"])-1]
     return sample_name, start_time, stop_time, max_num
 
 def get_information_init(board_name, sample, start_point=1, stop_point=10000):
-
-    #file_name =  get_all_files(board_name, sample)
     file_name =  get_all_files_db(board_name, sample)
     if file_name == []:
         return "","",""
@@ -172,9 +117,7 @@ def get_information_init(board_name, sample, start_point=1, stop_point=10000):
     if stop >  len(file_name) - 1:
        stop = len(file_name) - 1
 
-    try:   
-        #file_name_start = get_all_files(board_name, sample)[start]
-        #file_name_stop = get_all_files(board_name, sample)[stop]
+    try:
         file_name_start = get_all_files_db(board_name, sample)[start]
         file_name_stop = get_all_files_db(board_name, sample)[stop]
         df_start = pd.read_csv(file_name_start, index_col=0)
@@ -268,7 +211,6 @@ def draw_graph4(df_array, i, ax1, fig, df_array_sub = None):
 
     for df in df_array:
         time = pd.to_datetime(df["Time"])
-        #ax1.plot(time, df[items_1[i]], color=color[i])
         ax2.plot(time, df[items_2[i]], color="g")
 
     if df_array_sub is not None:
@@ -280,14 +222,12 @@ def draw_graph4(df_array, i, ax1, fig, df_array_sub = None):
     for df in df_array:
         time = pd.to_datetime(df["Time"])
         ax1.plot(time, df[items_1[i]], color=color[i])
-        #ax2.plot(time, df[items_2[i]], color="g")
 
 def draw_multi_graph2(fig, board_name="2209-05", sample="AT1910305", start_point=1, stop_point=10000):
     files = get_all_files_db(board_name, sample, start_num=start_point, stop_num=stop_point)
     df_array = []
     for file_name in files:
         df_array.append(get_dataframe(file_name))
-
 
     files4 = get_all_fov_data_files(board_name, sample)
     df_array4 = []
@@ -298,14 +238,9 @@ def draw_multi_graph2(fig, board_name="2209-05", sample="AT1910305", start_point
         ax = fig.add_subplot(9, 2, i+1)
         draw_graph4(df_array, i, ax, fig, df_array_sub=df_array4)
 
-    #files = get_all_files(board_name, sample, start_num=start_point, stop_num=stop_point)
-    
-
     for i in range(2, 10):
         ax = fig.add_subplot(9, 2, i+1)
         draw_graph2(df_array, i, ax, fig)
-
-    #files2 = get_all_single_search_files(board_name, sample)
     files2 = get_all_single_search_files_db(board_name, sample)
     df_array2 = [single_scan_dataframe(files2)]
 
@@ -313,28 +248,16 @@ def draw_multi_graph2(fig, board_name="2209-05", sample="AT1910305", start_point
         ax = fig.add_subplot(9, 2, i+1)
         draw_graph2(df_array, i, ax, fig, df_array_sub=df_array2)
     
-    #files3 = get_all_single_search_files(board_name, sample)
     files3 = get_all_single_search_files_db(board_name, sample)
     df_array3 = original_scan_data_dataframe(files3)
     
     for i in range(14, 18):
         ax = fig.add_subplot(9, 2, i+1)
         draw_graph3(df_array3, i, ax, fig)
-
     
     return fig
 
-    
-
-
 if __name__ == '__main__':
-    """
-    file_name = get_latest_file("2209-08")
-    print(file_name)
-    fig = plt.figure(figsize=(15,30))
-    fig = draw_multi_graph2(fig, board_name="2209-08", sample="AT1930303")
-    plt.show()
-    """
     board_name = "2209-05"
     print(get_all_sample_name(board_name), get_all_sample_name_db(board_name))
     assert get_all_sample_name(board_name) == get_all_sample_name_db(board_name)
@@ -343,4 +266,3 @@ if __name__ == '__main__':
     sample ='AT1910305'
     print(get_all_files(board_name, sample, start_num = 10, stop_num = 11))
     print(get_all_files_db(board_name, sample, start_num = 10, stop_num = 11))
-

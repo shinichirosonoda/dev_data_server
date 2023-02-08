@@ -9,19 +9,6 @@ from db_control import pick_up_sample_board_id_mes_mode
 
 db_path1 = './db/mems_board.db'
 db_path2 = './db/mems_fov.db'
-
-"""
-def select_sample_path(name, sample, file_type="csv"):
-    return "../long_data/{}/*_{}.{}".format(name, sample, file_type)
-
-def get_all_single_search_files(board_name, sample):
-    try:
-        path = select_sample_path(board_name, sample, file_type="txt")
-        files = sorted(glob.glob(path))
-        return files
-    except:
-        return
-"""
          
 def get_all_single_search_files_db(board_name, sample):
     files = [x[3] for x in pick_up_sample_board_id_mes_mode(sample, board_name, "check", db_path1)]
@@ -152,17 +139,7 @@ def original_scan_data_dataframe(files):
 
     return df_array
 
-    
-
 if __name__ == '__main__':
-    """
-    folder = "../long_data/2209-08"
-    files = glob.glob(folder + "/*.txt")
-    dfs = original_scan_data_dataframe(files)
-    print(dfs[0]["slow_freq_list"])
-    print(get_peak(files[0]))
-    print(single_scan_dataframe(files))
-    """
     board_name = "2209-05"
     sample ='AT1910305'
 
