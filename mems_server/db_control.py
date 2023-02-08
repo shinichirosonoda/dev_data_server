@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 import datetime, sqlite3
 
-db_path1 = './db/mems_board.db'
-db_path2 = './db/mems_fov.db'
+#db_path1 = './db/mems_board.db'
+#db_path2 = './db/mems_fov.db'
 
 
-#db_path1 = '/home/sonoda/git2/dev_data_server/mems_server/db/mems_board.db'
-#db_path2 = '/home/sonoda/git2/dev_data_server/mems_server/db/mems_fov.db'
+db_path1 = '/home/sonoda/git2/dev_data_server/mems_server/db/mems_board.db'
+db_path2 = '/home/sonoda/git2/dev_data_server/mems_server/db/mems_fov.db'
 
 
 # mems_board.dbの発番を行う。
