@@ -16,46 +16,49 @@ from db_control import pick_up_board_id,\
 db_path1 = './db/mems_board.db'
 db_path2 = './db/mems_fov.db'
 
-items_1 = ["delay_fast", "delay_slow", "vpp_sum2", "vpp_sum1", "Ch1_word", "Ch2_word", "Ch1_Amp", "Ch2_Amp",\
+items_1 = ["2x", "2y",\
+           "delay_fast", "delay_slow", "vpp_sum2", "vpp_sum1", "Ch1_word", "Ch2_word", "Ch1_Amp", "Ch2_Amp",\
            "fast_vpp_freq", "slow_vpp_freq", "fast_phase_freq", "slow_phase_freq",\
-           "fast_vpp_list", "slow_vpp_list", "fast_phase_list", "slow_phase_list",\
-           "2x", "2y"]
+           "fast_vpp_list", "slow_vpp_list", "fast_phase_list", "slow_phase_list"]
 
-items_2 = ["temperature", "temperature", "temperature", "temperature", "temperature", "temperature", "temperature", "temperature",\
-           "temperature", "temperature", "temperature", "temperature", "", "", "", "", "temperature", "temperature"]
+items_2 = ["temperature", "temperature",\
+           "temperature", "temperature", "temperature", "temperature", "temperature", "temperature", "temperature", "temperature",\
+           "temperature", "temperature", "temperature", "temperature", "", "", "", ""]
 
-color =["b", "r", "b", "r", "b", "r", "b", "r", "b", "r", "b", "r", "", "", "", "", "b", "r"]
+color =["b", "r", "b", "r", "b", "r", "b", "r", "b", "r", "b", "r", "b", "r", "", "", "", ""]
 
-axis_1 = ["Phase (clocks)", "Phase (clocks)", "Vpp (14bit x 100)", "Vpp (14bit x 100)",\
+axis_1 = ["Angle(deg)", "Angle(deg)",\
+          "Phase (clocks)", "Phase (clocks)", "Vpp (14bit x 100)", "Vpp (14bit x 100)",\
           "Frequency (word)", "Frequency (word)", "Voltage (volt)", "Voltage (volt)",\
           "Frequency (word)", "Frequency (word)", "Frequency (word)", "Frequency (word)",\
-          "Vpp (14bit)", "Vpp (14bit)", "Phase (clocks)", "Phase (clocks)", "Angle(deg)", "Angle(deg)"]
+          "Vpp (14bit)", "Vpp (14bit)", "Phase (clocks)", "Phase (clocks)"]
 
-axis_2 = ["Temperature (deg)", "Temperature (deg)", "Temperature (deg)", "Temperature (deg)",\
+axis_2 = ["Temperature (deg)", "Temperature (deg)",\
           "Temperature (deg)", "Temperature (deg)", "Temperature (deg)", "Temperature (deg)",\
           "Temperature (deg)", "Temperature (deg)", "Temperature (deg)", "Temperature (deg)",\
-          "", "", "", "", "Temperature (deg)", "Temperature (deg)"]
+          "Temperature (deg)", "Temperature (deg)", "Temperature (deg)", "Temperature (deg)",\
+          "", "", "", ""]
 
-titles = ["Phase_fast", "Phase_slow", "Vpp_fast", "Vpp_slow",\
+titles = ["Fast FOV angle", "Slow FOV angle",\
+          "Phase_fast", "Phase_slow", "Vpp_fast", "Vpp_slow",\
           "Frequency_fast", "Frequency_slow", "Voltage_fast", "Voltage_slow",\
           "Peak search using Vpp fast", "Peak search using Vpp slow", "Peak search using phase fast", "Peak search using phase slow",
           "Fast Vpp at Single axis Scan", "Slow Vpp at Single axis Scan",\
-          "Fast phase at Single axis Scan", "Slow phase at Single axis Scan",\
-          "Fast FOV angle", "Slow FOV angle"]
+          "Fast phase at Single axis Scan", "Slow phase at Single axis Scan"]
 
-x_axis_label = ["Time", "Time", "Time", "Time",\
+x_axis_label = ["Time", "Time",\
+                "Time", "Time", "Time", "Time",\
                 "Time", "Time", "Time", "Time",\
                 "Time", "Time", "Time", "Time",\
                 "fast_freq_list", "slow_freq_list",\
-                "fast_freq_list", "slow_freq_list",\
-                "Time", "Time"]
+                "fast_freq_list", "slow_freq_list"]
 
-x_axis_label_title = ["Time", "Time", "Time", "Time",\
-                "Time", "Time", "Time", "Time",\
-                "Time", "Time", "Time", "Time",\
-                "Frequency (word)", "Frequency (word)",\
-                "Frequency (word)", "Frequency (word)",\
-                "Time", "Time"]
+x_axis_label_title = ["Time", "Time",\
+                      "Time", "Time", "Time", "Time",\
+                      "Time", "Time", "Time", "Time",\
+                      "Time", "Time", "Time", "Time",\
+                      "Frequency (word)", "Frequency (word)",\
+                      "Frequency (word)", "Frequency (word)"]
 
 """
 def get_all_sample_name(board_name):
@@ -280,13 +283,25 @@ def draw_graph4(df_array, i, ax1, fig, df_array_sub = None):
         #ax2.plot(time, df[items_2[i]], color="g")
 
 def draw_multi_graph2(fig, board_name="2209-05", sample="AT1910305", start_point=1, stop_point=10000):
-    #files = get_all_files(board_name, sample, start_num=start_point, stop_num=stop_point)
     files = get_all_files_db(board_name, sample, start_num=start_point, stop_num=stop_point)
     df_array = []
     for file_name in files:
         df_array.append(get_dataframe(file_name))
 
-    for i in range(8):
+
+    files4 = get_all_fov_data_files(board_name, sample)
+    df_array4 = []
+    for file_name in files4:
+        df_array4.append(get_dataframe(file_name))
+
+    for i in range(2):
+        ax = fig.add_subplot(9, 2, i+1)
+        draw_graph4(df_array, i, ax, fig, df_array_sub=df_array4)
+
+    #files = get_all_files(board_name, sample, start_num=start_point, stop_num=stop_point)
+    
+
+    for i in range(2, 10):
         ax = fig.add_subplot(9, 2, i+1)
         draw_graph2(df_array, i, ax, fig)
 
@@ -294,7 +309,7 @@ def draw_multi_graph2(fig, board_name="2209-05", sample="AT1910305", start_point
     files2 = get_all_single_search_files_db(board_name, sample)
     df_array2 = [single_scan_dataframe(files2)]
 
-    for i in range(8, 12):
+    for i in range(10, 14):
         ax = fig.add_subplot(9, 2, i+1)
         draw_graph2(df_array, i, ax, fig, df_array_sub=df_array2)
     
@@ -302,19 +317,14 @@ def draw_multi_graph2(fig, board_name="2209-05", sample="AT1910305", start_point
     files3 = get_all_single_search_files_db(board_name, sample)
     df_array3 = original_scan_data_dataframe(files3)
     
-    for i in range(12, 16):
+    for i in range(14, 18):
         ax = fig.add_subplot(9, 2, i+1)
         draw_graph3(df_array3, i, ax, fig)
 
-    files4 = get_all_fov_data_files(board_name, sample)
-    df_array4 = []
-    for file_name in files4:
-        df_array4.append(get_dataframe(file_name))
-
-    for i in range(16, 18):
-        ax = fig.add_subplot(9, 2, i+1)
-        draw_graph4(df_array, i, ax, fig, df_array_sub=df_array4)
+    
     return fig
+
+    
 
 
 if __name__ == '__main__':
