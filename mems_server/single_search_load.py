@@ -1,14 +1,18 @@
-import glob
+#import glob
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 from datetime import datetime as dt
 import os
 
+from db_control import pick_up_sample_board_id_mes_mode
 
+db_path1 = './db/mems_board.db'
+db_path2 = './db/mems_fov.db'
+
+"""
 def select_sample_path(name, sample, file_type="csv"):
     return "../long_data/{}/*_{}.{}".format(name, sample, file_type)
-
 
 def get_all_single_search_files(board_name, sample):
     try:
@@ -17,6 +21,11 @@ def get_all_single_search_files(board_name, sample):
         return files
     except:
         return
+"""
+         
+def get_all_single_search_files_db(board_name, sample):
+    files = [x[3] for x in pick_up_sample_board_id_mes_mode(sample, board_name, "check", db_path1)]
+    return files
 
 def median1d(arr, k=5):
     w = len(arr)
@@ -67,7 +76,8 @@ def get_peak(file_name, plot_draw=True):
     f.close()
 
     if os.name == 'nt':
-        time_str = file_name.split("_")[-2].split("\\")[-1]
+        #time_str = file_name.split("_")[-2].split("\\")[-1]
+        time_str = file_name.split("_")[-2].split("/")[-1]
     else:
         time_str = file_name.split("_")[-2].split("/")[-1]
     tdatetime = dt.strptime(time_str, '%Y-%m-%d-%H-%M-%S')
@@ -145,10 +155,16 @@ def original_scan_data_dataframe(files):
     
 
 if __name__ == '__main__':
+    """
     folder = "../long_data/2209-08"
     files = glob.glob(folder + "/*.txt")
     dfs = original_scan_data_dataframe(files)
     print(dfs[0]["slow_freq_list"])
     print(get_peak(files[0]))
     print(single_scan_dataframe(files))
-    
+    """
+    board_name = "2209-05"
+    sample ='AT1910305'
+
+    print(get_all_single_search_files(board_name, sample))
+    print(get_all_single_search_files_db(board_name, sample))

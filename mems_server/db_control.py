@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
 import datetime, sqlite3
 
-"""
 db_path1 = './db/mems_board.db'
 db_path2 = './db/mems_fov.db'
-"""
 
-db_path1 = '/home/sonoda/git2/dev_data_server/mems_server/db/mems_board.db'
-db_path2 = '/home/sonoda/git2/dev_data_server/mems_server/db/mems_fov.db'
+
+#db_path1 = '/home/sonoda/git2/dev_data_server/mems_server/db/mems_board.db'
+#db_path2 = '/home/sonoda/git2/dev_data_server/mems_server/db/mems_fov.db'
 
 
 # mems_board.dbの発番を行う。
@@ -82,6 +81,44 @@ def pick_up_board_id(board_id, path):
     c = conn.cursor()
     text = 'select * from board where board_id = ?'
     c.execute(text, (board_id,))
+    data = c.fetchall()
+
+    conn.commit()
+    conn.close()
+
+    return data
+
+# board_id, mes_modeのデータを取り出す。(mems_board.db, mems_fov.db)
+def pick_up_board_id_mes_mode(board_id, mes_mode, path):
+    conn = sqlite3.connect(path)
+    c = conn.cursor()
+    text = 'select * from board where board_id = ? and mes_mode = ?'
+    c.execute(text, (board_id, mes_mode))
+    data = c.fetchall()
+
+    conn.commit()
+    conn.close()
+
+    return data
+# board_id, mes_modeのデータを取り出す。(mems_board.db, mems_fov.db)
+def pick_up_sample_board_id_mes_mode(sample_name, board_id, mes_mode, path):
+    conn = sqlite3.connect(path)
+    c = conn.cursor()
+    text = 'select * from board where sample_name = ? and board_id = ? and mes_mode = ?'
+    c.execute(text, (sample_name, board_id, mes_mode))
+    data = c.fetchall()
+
+    conn.commit()
+    conn.close()
+
+    return data
+
+# board_id, mes_modeのデータを取り出す。(mems_board.db, mems_fov.db)
+def pick_up_sample_board_id(sample_name, board_id, path):
+    conn = sqlite3.connect(path)
+    c = conn.cursor()
+    text = 'select * from board where sample_name = ? and board_id = ?'
+    c.execute(text, (sample_name, board_id))
     data = c.fetchall()
 
     conn.commit()

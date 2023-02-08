@@ -1,0 +1,43 @@
+{
+    "s_volt": 16.3,
+    "f_volt": 20.0,
+    "base_rate": 32263874653659,
+    "step_rate": 32000000.0,
+    "_adder_max": 24,
+    "k": 223827408,
+    "temp_rate": [
+        0.0,
+        0.02,
+        0.0,
+        0.09
+    ],
+    "s_volt_single_res": 10.3,
+    "f_volt_single_res": 6.9,
+    "s_freq_bit_single_res": 1620004593768218,
+    "f_freq_bit_single_res": 3242315030545651,
+    "freq_bit_single_res_step_rough_slow": 115292150460,
+    "freq_bit_single_res_step_detail_slow": 5764607523,
+    "freq_bit_single_res_step_rough_fast": 288230376151,
+    "freq_bit_single_res_step_detail_fast": 28823037615,
+    "freq_bit_single_res_cycle_rough": 2,
+    "freq_bit_single_res_cycle_detail": 1,
+    "s_target_phase_single_res": 0,
+    "f_target_phase_single_res": 0,
+    "thres_phase": 1100,
+    "target_phase": [
+        3690.0,
+        0.0
+    ],
+    "back_freq": 18,
+    "prime_number": [
+        237,
+        475
+    ],
+    "step": 705458,
+    "phase_lock": 0,
+    "log_interval": 1,
+    "pkg": 2,
+    "waveform": 0,
+    "voltage_offset": 0,
+    "sample": "TT2222222"
+}
