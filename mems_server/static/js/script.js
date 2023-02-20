@@ -1,6 +1,7 @@
 // using class
 const start_min = 1;
 const stop_max = 100000;
+const init_board = "2209-05"
 
 class DisplayGraph{
     constructor() { 
@@ -142,26 +143,16 @@ class DisplayGraph{
     }
 
     set_board(){
-        const send_data = JSON.stringify({func: this.selector.value1, mode: this.selector.value2, start_point: this.points.start,
-                                          stop_point: this.points.stop, sample_name: this.sample_name});
-
-        $.ajax({
-            method: "POST",
-            url: "/board_list",
-            data: send_data,
-            contentType: "application/json"
-        })
+        $.get("/board_list")
         .done(function(data) {
-                $('#selector').empty();
-
                 for (let i = 0; i < data.board_list.length; i++){
-                    $('#selector').append('<option value='+data.board_list[i]+'>'+data.board_list[i]+'</option>');
-                 }
+                    if (data.board_list[i] != init_board){
+                        $('#selector').append('<option value='+data.board_list[i]+'>'+data.board_list[i]+'</option>');    
+                    }       
+                }
             }    
         )
     }
-
-    
 
 }
 
