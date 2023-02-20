@@ -4,7 +4,7 @@ from single_search_load import get_all_single_search_files_db, single_scan_dataf
 
 from fov_data_load import get_all_fov_data_files
 
-from db_control import pick_up_board_id,\
+from db_control import pick_up_board_id, pick_up,\
                        pick_up_board_id_mes_mode, pick_up_sample_board_id_mes_mode
 
 db_path1 = './db/mems_board.db'
@@ -54,6 +54,12 @@ x_axis_label_title = ["Time", "Time",\
                       "Frequency (word)", "Frequency (word)",\
                       "Frequency (word)", "Frequency (word)"]
 
+
+def get_all_board_name_db():
+    list1 = [x[2] for x in pick_up(db_path1)]
+    list2 = sorted(set(list1), key=list1.index)
+    list2.sort()
+    return list2
 
 def get_all_sample_name_db(board_name):
     list1 = [x[1] for x in pick_up_board_id(board_name, db_path1)]
@@ -259,10 +265,5 @@ def draw_multi_graph2(fig, board_name="2209-05", sample="AT1910305", start_point
 
 if __name__ == '__main__':
     board_name = "2209-05"
-    print(get_all_sample_name(board_name), get_all_sample_name_db(board_name))
-    assert get_all_sample_name(board_name) == get_all_sample_name_db(board_name)
-    print(get_latest_file(board_name), get_latest_file_db(board_name))
-    #assert get_latest_file(board_name) == get_latest_file_db(board_name)
     sample ='AT1910305'
-    print(get_all_files(board_name, sample, start_num = 10, stop_num = 11))
     print(get_all_files_db(board_name, sample, start_num = 10, stop_num = 11))

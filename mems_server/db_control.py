@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 import datetime, sqlite3
 
-#db_path1 = './db/mems_board.db'
-#db_path2 = './db/mems_fov.db'
+db_path1 = './db/mems_board.db'
+db_path2 = './db/mems_fov.db'
 
 
-db_path1 = '/home/sonoda/git2/dev_data_server/mems_server/db/mems_board.db'
-db_path2 = '/home/sonoda/git2/dev_data_server/mems_server/db/mems_fov.db'
+#db_path1 = '/home/sonoda/git2/dev_data_server/mems_server/db/mems_board.db'
+#db_path2 = '/home/sonoda/git2/dev_data_server/mems_server/db/mems_fov.db'
 
 
 # mems_board.dbの発番を行う。
@@ -152,7 +152,21 @@ def pick_up_id(id, path):
 
     return data
 
+# データを取り出す。(mems_board.db, mems_fov.db)
+def pick_up(path):
+    conn = sqlite3.connect(path)
+    c = conn.cursor()
+    text = 'select * from board'
+    c.execute(text,)
+    data = c.fetchall()
+
+    conn.commit()
+    conn.close()
+
+    return data
+
 if __name__ == '__main__':
+    """
     id = 1
     print(id)
     output_data = pick_up_id(id, db_path1)
@@ -165,3 +179,8 @@ if __name__ == '__main__':
 
     print(pick_up_sample_name("TT2222222", db_path1))
     print(pick_up_sample_name("TT2222222", db_path2))
+    """
+    list1 = [x[2] for x in pick_up(db_path1)]
+    list2 = sorted(set(list1), key=list1.index)
+    list2.sort()
+    print(list2)

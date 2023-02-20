@@ -11,7 +11,7 @@ from data_load import draw_multi_graph2, get_all_sample_name,\
                       get_information, get_information_init
 """
 from data_load import draw_multi_graph2, get_all_sample_name_db,\
-                      get_information, get_information_init
+                      get_information, get_information_init, get_all_board_name_db
                       
 import sys
 import ctypes
@@ -115,9 +115,7 @@ def list():
 
 @app.route("/board_list", methods=['get'])
 def board_list():
-    board_list = ["2112-01", "2203-04",\
-                  "2209-05", "2209-06", "2209-07", "2209-08",\
-                  "2209-09", "2209-11"]   
+    board_list = get_all_board_name_db()   
     return jsonify({"board_list": board_list})
 
 # DB
