@@ -10,6 +10,7 @@
     <script type="text/javascript">
     //initialize components
     $(document).ready(function() {
+        set_board();
         const target = document.getElementById('selector');
         drawGraph(target);
     });
@@ -26,7 +27,7 @@
 
     <div>
         <p>Select a MEMS board number</p>
-        <select id=selector onchange="selectBoard(this)">
+        <select id=selector onchange="drawGraph(this)">
             <option value="2209-05" selected>2209-05</option>
         </select>
     </div>

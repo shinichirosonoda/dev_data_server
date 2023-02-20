@@ -40,7 +40,6 @@ class DisplayGraph{
         const idx = obj.selectedIndex;
         this.selector.value1 = obj.options[idx].value;
         this.sample_name = "";
-        this.set_board();
         this.set_sample();
         this.set_start_stop();
         this.draw_common();
@@ -177,4 +176,8 @@ function button(){
 
 function selectBoard(obj) {
     dg.selectBoard(obj);
+}
+
+function set_board() {
+    dg.set_board();
 }
