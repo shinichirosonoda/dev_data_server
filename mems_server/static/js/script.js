@@ -1,133 +1,189 @@
-// using global variable
-let value1 = "2209-05"
-let value2 = "latest";
-let value3 = "1"
-let start_point = 1;
-let stop_point = 100000;
-let min_num = 1;
-let max_num = 100000;
-let sample_name = "";
+// using class
 const start_min = 1;
 const stop_max = 100000;
 
-function draw_common(){
-    const plotdata = document.getElementById('plotimg');
-    const send_data = JSON.stringify({func: value1, mode: value2, start_point: start_point, stop_point: stop_point, sample_name: sample_name});
-    
-    $.ajax({
-        method: "POST",
-        url: "/plot",
-        data: send_data,
-        contentType: "application/json"
-    })
-    .done(function(data) {
-        plotdata.src = "data:image/png:base64," + data;
-    })
-    print_sample();
-}
-
-function set_start_stop(){
-    $("#text1").val(start_min);
-    $("#text2").val(stop_max);
-    start_point = start_min;
-    stop_point = stop_max;
-}
-
-
-function drawGraph(obj) {
-    const idx = obj.selectedIndex;
-    value1 = obj.options[idx].value;
-    sample_name = "";
-
-    set_sample();
-    set_start_stop();
-    draw_common();
-};
-
-function drawGraph2(obj) {
-    const idx = obj.selectedIndex;
-    value2 = obj.options[idx].value;
-
-    set_start_stop();
-    draw_common();
-
-};
-
-function print_sample(){
-    const send_data = JSON.stringify({func: value1, mode: value2, start_point: start_point, stop_point:stop_point, sample_name: sample_name});
-    $.ajax({
-        method: "POST",
-        url: "/sample",
-        data: send_data,
-        contentType: "application/json"
-    })
-    .done(function(data) {
-        
-        $("#sample").text(data.sample);
-        $("#start_time").text(data.start_time);
-        $("#stop_time").text(data.stop_time);
-        max_num = data.max_num;
-
-        start_point = check_box("#text1");
-        stop_point = check_box("#text2");
-
-    });
-}
-
-function check_box(box_name){
-    let num = parseInt($(box_name).val());
-    if(num > max_num){ $(box_name).val(max_num)};
-    if(num < min_num){ $(box_name).val(min_num)};
-    num = parseInt($(box_name).val());
-
-    return num
-}
-
-function check_start_stop(){
-    start_point = check_box("#text1");
-    stop_point = check_box("#text2");
-
-    if (start_point > stop_point){
-        stop_point = start_point;
-        $("#text2").val(stop_point);
+class DisplayGraph{
+    constructor() { 
+        this.selector = { value1: "2209-05", value2: "latest", value3 : "1" };
+        this.points ={ start: start_min, stop: stop_max};
+        this.num = { min: start_min, max: stop_max};
+        this.sample_name = "";
+        this.board_name = "2209-05"
     }
 
-    print_sample()
-    draw_common();
+    draw_common(){
+        const plotdata = document.getElementById('plotimg');
+        const send_data = JSON.stringify({func: this.selector.value1, mode: this.selector.value2, start_point: this.points.start,
+                                          stop_point: this.points.stop, sample_name: this.sample_name});
+
+        $.ajax({
+            method: "POST",
+            url: "/plot",
+            data: send_data,
+            contentType: "application/json"
+        })
+        .done(function(data) {
+            plotdata.src = "data:image/png:base64," + data;
+        })
+        this.print_sample();
+    }
+
+    set_start_stop(){
+        $("#text1").val(start_min);
+        $("#text2").val(stop_max);
+        this.points.start = start_min;
+        this.points.stop = stop_max;
+    }
+
+    drawGraph(obj) {
+        const idx = obj.selectedIndex;
+        this.selector.value1 = obj.options[idx].value;
+        this.sample_name = "";
+        this.set_board();
+        this.set_sample();
+        this.set_start_stop();
+        this.draw_common();
+    }
+
+    drawGraph2(obj) {
+        const idx = obj.selectedIndex;
+        this.selector.value2 = obj.options[idx].value;
+        this.set_start_stop();
+        this.draw_common();
+    }
+    
+    check_box(box_name){
+        let num = parseInt($(box_name).val());
+        if(num > this.num.max){ $(box_name).val(this.num.max) };
+        if(num < this.num.min){ $(box_name).val(this.num.min) };
+        num = parseInt($(box_name).val());
+        return num
+    }
+
+    print_sample(){
+        const send_data = JSON.stringify({func: this.selector.value1, mode: this.selector.value2, start_point: this.points.start,
+                                          stop_point: this.points.stop, sample_name: this.sample_name});
+        $.ajax({
+            method: "POST",
+            url: "/sample",
+            data: send_data,
+            contentType: "application/json"
+        })
+        .done((data) => {
+            $("#sample").text(data.sample);
+            $("#start_time").text(data.start_time);
+            $("#stop_time").text(data.stop_time);
+            this.num.max = data.max_num;
+
+            this.points.start = this.check_box("#text1");
+            this.points.stop = this.check_box("#text2");
+        });
+    }
+
+    get_start_stop() {
+        this.points.start = this.check_box("#text1");
+        this.points.stop = this.check_box("#text2");
+
+        $("#text1").val(this.points.start);
+        $("#text2").val(this.points.stop);
+
+        if (this.points.start > this.points.stop){
+            this.points.stop = this.points.start;
+            $("#text2").val(this.points.stop);
+        }
+
+        this.print_sample()
+        this.draw_common();
+    }
+
+    button(){
+            $('#button1').on('click', (e)=> {
+                e.preventDefault();  // ボタン押下時の動作を抑制
+                this.get_start_stop();
+            });
+    }
+
+    selectSample(obj){
+        const idx = obj.selectedIndex;
+        this.selector.value3 = obj.options[idx].value;
+        this.sample_name = this.selector.value3;
+
+        this.set_start_stop();
+        this.draw_common();
+    }
+
+    set_sample(){
+        const send_data = JSON.stringify({func: this.selector.value1, mode: this.selector.value2, start_point: this.points.start,
+                                          stop_point: this.points.stop, sample_name: this.sample_name});
+
+        $.ajax({
+            method: "POST",
+            url: "/list",
+            data: send_data,
+            contentType: "application/json"
+        })
+        .done(function(data) {
+                $('#selector3').empty();
+
+                for (let i = 0; i < data.sample_list.length; i++){
+                    $('#selector3').append('<option value='+data.sample_list[i]+'>'+data.sample_list[i]+'</option>');
+                 }
+            }    
+        )
+    }
+
+    selectBoard(obj){
+        const idx = obj.selectedIndex;
+        this.selector.value1 = obj.options[idx].value;
+        this.board_name = this.selector.value1;
+
+        this.set_start_stop();
+        this.draw_common();
+    }
+
+    set_board(){
+        const send_data = JSON.stringify({func: this.selector.value1, mode: this.selector.value2, start_point: this.points.start,
+                                          stop_point: this.points.stop, sample_name: this.sample_name});
+
+        $.ajax({
+            method: "POST",
+            url: "/board_list",
+            data: send_data,
+            contentType: "application/json"
+        })
+        .done(function(data) {
+                $('#selector').empty();
+
+                for (let i = 0; i < data.board_list.length; i++){
+                    $('#selector').append('<option value='+data.board_list[i]+'>'+data.board_list[i]+'</option>');
+                 }
+            }    
+        )
+    }
+
+    
+
+}
+
+// Call function from HTML
+const dg = new DisplayGraph;
+
+function drawGraph(obj) {
+    dg.drawGraph(obj);
+}
+
+function drawGraph2(obj) {
+    dg.drawGraph2(obj);
+}
+
+function selectSample(obj) {
+    dg.selectSample(obj);
 }
 
 function button(){
-    $('#button1').on('click', function(e) {
-        e.preventDefault();  // ボタン押下時の動作を抑制
-        check_start_stop();
-    });
+    dg.button();
 }
 
-function selectSample(obj){
-    const idx = obj.selectedIndex;
-    value3 = obj.options[idx].value;
-    sample_name = value3;
-
-    set_start_stop();
-    draw_common();
-}
-
-function set_sample(){
-    const send_data = JSON.stringify({func: value1, mode: value2, start_point: start_point, stop_point: stop_point, sample_name: sample_name});
-
-    $.ajax({
-        method: "POST",
-        url: "/list",
-        data: send_data,
-        contentType: "application/json"
-    })
-    .done(function(data) {
-            $('#selector3').empty();
-
-            for (let i = 0; i < data.sample_list.length; i++){
-                $('#selector3').append('<option value='+data.sample_list[i]+'>'+data.sample_list[i]+'</option>');
-             }
-        }
-        
-    )
+function selectBoard(obj) {
+    dg.selectBoard(obj);
 }

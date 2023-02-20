@@ -106,12 +106,19 @@ def draw_sample(func='2209-05'):
     return jsonify({"sample":"sample: " + sample_name, "start_time":"start_time: " + start_time,\
                     "stop_time":"stop_time: " + stop_time, "max_num": max_num})
 
+
 @app.route("/list", methods=['post'])
 def list():
     func = request.json["func"]
     #sample_list = get_all_sample_name(func)
     sample_list = get_all_sample_name_db(func)
     return jsonify({'sample_list': sample_list})
+
+@app.route("/board_list", methods=['post'])
+def board_list():
+    board_list = ["2112-01", "2203-04",\
+                  "2209-05", "2209-06", "2209-07", "2209-08", "2209-09", "2209-11"]   
+    return jsonify({"board_list": board_list})
 
 # DB
 @app.route('/data_create_board', methods=['POST'])
