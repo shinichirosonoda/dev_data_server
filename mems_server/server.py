@@ -117,7 +117,8 @@ def list():
 @app.route("/board_list", methods=['post'])
 def board_list():
     board_list = ["2112-01", "2203-04",\
-                  "2209-05", "2209-06", "2209-07", "2209-08", "2209-09", "2209-11"]   
+                  "2209-05", "2209-06", "2209-07", "2209-08",\
+                  "2209-09", "2209-11"]   
     return jsonify({"board_list": board_list})
 
 # DB
