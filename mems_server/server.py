@@ -6,14 +6,13 @@ import urllib
 from matplotlib.backends.backend_agg import FigureCanvasAgg
 from matplotlib.figure import Figure
 
-import flaskdb
+import flaskdb_long
 from data_load import draw_multi_graph2, get_all_sample_name_db,\
                       get_information, get_information_init, get_all_board_name_db
                       
 import sys
 import ctypes
 import os
-
 
 import argparse
 
@@ -38,7 +37,7 @@ else:
 # Flask server
 app = Flask(__name__)
 
-app.register_blueprint(flaskdb.app)
+app.register_blueprint(flaskdb_long.app)
 
 auth = HTTPBasicAuth()
 users = {"senken1": "2022mems"}
@@ -113,11 +112,6 @@ def list():
 def board_list():
     board_list = get_all_board_name_db()   
     return jsonify({"board_list": board_list})
-
-
-
-
-
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0', port=8080)
