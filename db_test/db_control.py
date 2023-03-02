@@ -1,97 +1,45 @@
 import datetime, sqlite3
 
+# ? array create
 def q_create(num):
     str_text = ''
-    for i in range(num):
+    for i in range(num - 1):
         str_text += '?,'
     str_text += '?'
     return str_text
 
 
 # general create
-def data_create(data, col_tuple, db_path):
+def data_create(data, db_path):
+    keys_list = list(data.keys())
+    values_list = list(data.values())
+
     conn = sqlite3.connect(db_path)
     c = conn.cursor()
     dt_now = datetime.datetime.now()
     date = dt_now.strftime('%Y-%m-%d %H:%M:%S')
+    keys_list.append("date")
+    values_list.append(date)
 
-    text = 'insert into board{} values({})'.format(col_tuple, q_create(len(col_tuple) -1))
-    
-    c.execute(text, col_tuple)
-    data = c.lastrowid
+    text = 'insert into board{} values({})'.format(tuple(keys_list), q_create(len(keys_list)))
+    c.execute(text, tuple(values_list))
+
+    return_data = c.lastrowid
     conn.commit()
     conn.close()
 
-    return data
+    return return_data
 
 
 # mems_board.dbの発番を行う。
-def data_create_board(data):
-    sample_name = data["sample_name"]
-    board_id = data["board_id"]
-    file_name = data["file_name"]
-    mes_mode = data["mes_mode"]
-
-    conn = sqlite3.connect(db_path1)
-    c = conn.cursor()
-    dt_now = datetime.datetime.now()
-    date = dt_now.strftime('%Y-%m-%d %H:%M:%S')
-
-    text = 'insert into board(sample_name,\
-                              board_id,\
-                              file_name,\
-                              mes_mode,\
-                              date) values(?,?,?,?,?)'
-    
-    c.execute(text, (sample_name,\
-                     board_id,\
-                     file_name,\
-                     mes_mode,\
-                     date))
-    
-    data = c.lastrowid
-    conn.commit()
-    conn.close()
-
-    return data
+def data_create_board(data, db_path = './db/mems_board.db'):
+    return data_create(data, db_path)
 
 # mems_fov.dbの発番を行う。
-def data_create_fov(data):
-    experiment_id = data["experiment_id"]
-    sample_name = data["sample_name"]
-    board_id = data["board_id"]
-    fov_id = data["fov_id"]
-    camera_id = data["camera_id"]
-    file_name = data["file_name"]
+def data_create_fov(data, db_path = './db/mems_fov.db'):
+   return data_create(data, db_path)
 
-    conn = sqlite3.connect(db_path2)
-    c = conn.cursor()
-    dt_now = datetime.datetime.now()
-    date = dt_now.strftime('%Y-%m-%d %H:%M:%S')
-
-    text = 'insert into board(experiment_id,\
-                              sample_name,\
-                              board_id,\
-                              fov_id,\
-                              camera_id,\
-                              file_name,\
-                              date) values(?,?,?,?,?,?,?)'
-    
-    c.execute(text, (experiment_id,\
-                     sample_name,\
-                     board_id,\
-                     fov_id,\
-                     camera_id,\
-                     file_name,\
-                     date))
-    
-    data = c.lastrowid
-    conn.commit()
-    conn.close()
-
-    return data
-
-# board_idのデータを取り出す。(mems_board.db, mems_fov.db)
+# board_idのデータを取り出す。
 def pick_up_board_id(board_id, path):
     conn = sqlite3.connect(path)
     c = conn.cursor()
@@ -104,7 +52,7 @@ def pick_up_board_id(board_id, path):
 
     return data
 
-# board_id, mes_modeのデータを取り出す。(mems_board.db, mems_fov.db)
+# board_id, mes_modeのデータを取り出す。
 def pick_up_board_id_mes_mode(board_id, mes_mode, path):
     conn = sqlite3.connect(path)
     c = conn.cursor()
@@ -116,7 +64,7 @@ def pick_up_board_id_mes_mode(board_id, mes_mode, path):
     conn.close()
 
     return data
-# board_id, mes_modeのデータを取り出す。(mems_board.db, mems_fov.db)
+# board_id, mes_modeのデータを取り出す。
 def pick_up_sample_board_id_mes_mode(sample_name, board_id, mes_mode, path):
     conn = sqlite3.connect(path)
     c = conn.cursor()
@@ -129,7 +77,7 @@ def pick_up_sample_board_id_mes_mode(sample_name, board_id, mes_mode, path):
 
     return data
 
-# board_id, mes_modeのデータを取り出す。(mems_board.db, mems_fov.db)
+# board_id, mes_modeのデータを取り出す。
 def pick_up_sample_board_id(sample_name, board_id, path):
     conn = sqlite3.connect(path)
     c = conn.cursor()
@@ -142,7 +90,7 @@ def pick_up_sample_board_id(sample_name, board_id, path):
 
     return data
 
-# sample_nameのデータを取り出す。(mems_board.db, mems_fov.db)
+# sample_nameのデータを取り出す。
 def pick_up_sample_name(sample_name, path):
     conn = sqlite3.connect(path)
     c = conn.cursor()
@@ -182,7 +130,9 @@ def pick_up(path):
     return data
 
 if __name__ == '__main__':
-    """
+    db_path1 = './db/mems_board.db'
+    db_path2 = './db/mems_fov.db'
+
     id = 1
     print(id)
     output_data = pick_up_id(id, db_path1)
@@ -195,18 +145,26 @@ if __name__ == '__main__':
 
     print(pick_up_sample_name("TT2222222", db_path1))
     print(pick_up_sample_name("TT2222222", db_path2))
-    """
 
-    """
     list1 = [x[2] for x in pick_up(db_path1)]
     list2 = sorted(set(list1), key=list1.index)
     list2.sort()
     print(list2)
-    """
 
-    print(q_create(4))
-    col_tuple_board = ("sample_name", "board_id", "file_name", "mes_mode", "date")
-    db_path_board = './db/mems_board.db'
-    db_path_fov = './db/mems_fov.db'
-    data = ("3p01", "2209-05", "test.csv", "start", "2023/03/01")
-    print(data_create(data, col_tuple_board, db_path_board))
+    
+    data = {"sample_name": "TT2222222",
+            "board_id": "2209-05",
+            "file_name": "test.csv",
+            "mes_mode": "start"}
+
+    experiment_id = data_create_board(data)
+    print(experiment_id)
+    
+    data = {"experiment_id": experiment_id,
+            "sample_name": "TT2222222",
+                 "board_id": "2209-05",
+                 "fov_id":  "lte1",
+                 "camera_id": "AA12345678",
+                 "file_name": "fov.csv"}
+    
+    print(data_create_fov(data))
