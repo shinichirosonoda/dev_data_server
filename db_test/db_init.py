@@ -39,6 +39,45 @@ old_path_2 = './db/mems_fov_old.db'
 
 config_data.append((sql_method_2, db_path_2, old_path_2))
 
+sql_method_3 = """
+               CREATE TABLE board(
+               id INTEGER PRIMARY KEY AUTOINCREMENT,
+               sample_name TEXT,
+               fast_word REAL,
+               slow_word REAL,
+               fast_volt REAL,
+               slow_volt REAL,
+               Q_fast REAL,
+               Q_slow REAL,
+               temperature REAL,
+               humidity REAL,
+               scan_file_name TEXT,
+               Q_scan_file_name TEXT,
+               board_id TEXT,
+               equip_id TEXT,
+               camera_id TEXT,
+               fast_start_word REAL,
+               fast_target_phase REAL,
+               fast_start_volt REAL, 
+               fast_stop_volt REAL,
+               slow_start_word REAL,
+               slow_target_phase REAL,
+               slow_start_volt REAL, 
+               slow_stop_volt REAL,
+               fast_word_width REAL,
+               fast_word_step REAL,
+               fast_asym REAL,
+               slow_word_width REAL,
+               slow_word_step REAL,              
+               slow_asym REAL,
+               date TEXT
+               )
+               """
+db_path_3 = './db/mems_single.db'
+old_path_3 = './db/mems_single_old.db'
+
+config_data.append((sql_method_3, db_path_3, old_path_3))
+
 # DB setting
 sql_method_list = [data[0] for data in config_data]
 db_path_list = [data[1] for data in config_data]

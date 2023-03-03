@@ -39,6 +39,10 @@ def data_create_board(data, db_path = './db/mems_board.db'):
 def data_create_fov(data, db_path = './db/mems_fov.db'):
    return data_create(data, db_path)
 
+# mems_scan.dbの発番を行う。
+def data_create_single(data, db_path = './db/mems_single.db'):
+   return data_create(data, db_path)   
+
 # board_idのデータを取り出す。
 def pick_up_board_id(board_id, path):
     conn = sqlite3.connect(path)
