@@ -3,6 +3,7 @@ import os, sqlite3
 config_data =[]
 
 # define DB
+# mems_board DB
 sql_method_1 = """
                CREATE TABLE board(
                id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -20,7 +21,7 @@ old_path_1 = './db/mems_borad_old.db'
 
 config_data.append((sql_method_1, db_path_1, old_path_1))
 
-
+# mems_fov DB
 sql_method_2 = """
                CREATE TABLE board(
                id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -39,6 +40,7 @@ old_path_2 = './db/mems_fov_old.db'
 
 config_data.append((sql_method_2, db_path_2, old_path_2))
 
+# mems_single DB
 sql_method_3 = """
                CREATE TABLE board(
                id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -73,6 +75,7 @@ sql_method_3 = """
                date TEXT
                )
                """
+               
 db_path_3 = './db/mems_single.db'
 old_path_3 = './db/mems_single_old.db'
 
