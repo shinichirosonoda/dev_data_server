@@ -1,5 +1,6 @@
-# -*- coding: utf-8 -*-
 import os, sqlite3
+
+config_data =[]
 
 # define DB
 sql_method_1 = """
@@ -17,8 +18,7 @@ sql_method_1 = """
 db_path_1 = './db/mems_board.db'
 old_path_1 = './db/mems_borad_old.db'
 
-#db_path_1 = '/home/sonoda/git2/dev_data_server/mems_server/db/mems_board.db'
-#old_path_1 = '/home/sonoda/git2/dev_data_server/mems_server/db/mems_borad_old.db'
+config_data.append((sql_method_1, db_path_1, old_path_1))
 
 
 sql_method_2 = """
@@ -37,8 +37,12 @@ sql_method_2 = """
 db_path_2 = './db/mems_fov.db'
 old_path_2 = './db/mems_fov_old.db'
 
-#db_path_2 = '/home/sonoda/git2/dev_data_server/mems_server/db/mems_fov.db'
-#old_path_2 = '/home/sonoda/git2/dev_data_server/mems_server/db/mems_fov_old.db'
+config_data.append((sql_method_2, db_path_2, old_path_2))
+
+# DB setting
+sql_method_list = [data[0] for data in config_data]
+db_path_list = [data[1] for data in config_data]
+old_path_list = [data[2] for data in config_data]
 
 # DB initiarize
 def db_init(db_path, old_path, sql_method):
@@ -63,14 +67,8 @@ def db_init(db_path, old_path, sql_method):
 
 
 def db_init_main():
-    db_init(db_path_1, old_path_1, sql_method_1)
-    db_init(db_path_2, old_path_2, sql_method_2)
+    for db_path, old_path, sql_method in zip(db_path_list, old_path_list, sql_method_list) :
+        db_init(db_path, old_path, sql_method)
 
 if __name__ == '__main__':
     db_init_main()
-
-    
-
-
-
-
