@@ -1,9 +1,9 @@
-{"condition1":{"fast_start_word": 27877, "fast_target_phase": 3700, "fast_volt":[6.5, 11.5],
-          "slow_start_word": 13892, "slow_target_phase": 7500, "slow_volt":[9.0, 14.5],
-          "fast_word_width": 15, "fast_word_step": 1.0, "fast_asym": 0.5,
-          "slow_word_width": 7, "slow_word_step": 0.5, "slow_asym": 0.0},
- "condition2":{"fast_start_word": 27877, "fast_target_phase": 3700, "fast_volt":[6.5, 11.5],
-          "slow_start_word": 13892, "slow_target_phase": 7500, "slow_volt":[9.0, 14.5],
-          "fast_word_width": 15, "fast_word_step": 1.0, "fast_asym": 0.5,
-          "slow_word_width": 7, "slow_word_step": 0.5, "slow_asym": 0.0}
+{"1":{"fast_start_word": 27877, "fast_target_phase": 3700, "fast_volt":[6.5, 11.5],
+      "slow_start_word": 13892, "slow_target_phase": 7500, "slow_volt":[9.0, 14.5],
+      "fast_word_width": 15, "fast_word_step": 1.0, "fast_asym": 0.5,
+      "slow_word_width": 7, "slow_word_step": 0.5, "slow_asym": 0.0},
+ "2":{"fast_start_word": 27877, "fast_target_phase": 3700, "fast_volt":[6.5, 11.5],
+      "slow_start_word": 13892, "slow_target_phase": 7500, "slow_volt":[9.0, 14.5],
+      "fast_word_width": 15, "fast_word_step": 1.0, "fast_asym": 0.5,
+      "slow_word_width": 7, "slow_word_step": 0.5, "slow_asym": 0.0}
 }

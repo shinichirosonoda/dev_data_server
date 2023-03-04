@@ -4,7 +4,7 @@ from db_control import data_create_single
 json_open = open('mes_conf.json', 'r')
 json_dict = json.load(json_open)
 
-conf = "condition1"
+conf = "1"
 
 # fast axis scan
 fast_start_word = json_dict[conf]["fast_start_word"]
@@ -32,6 +32,10 @@ csv_file_name = "test.csv"
 
 # Q scan file name
 csv_file_name2 = "test_Q.csv"
+
+# config file name
+json_file_name = "test_config.json"
+
 
 # board_id
 board_id = '2112-01'
@@ -68,26 +72,13 @@ output_dict = {"sample_name":       sample_name,
                "Q_fast":            Q_fast,
                "Q_slow":            Q_slow,
                "temperature":       temp,
-               "humidity":          humidity,
-               "scan_file_name":    csv_file_name,
-               "Q_scan_file_name":  csv_file_name2,
+               "humidity":          humidity,          
                "board_id":          board_id,
                "equip_id":          equip_id,
                "camera_id":         camera_id,
-               "fast_start_word":   fast_start_word,
-               "fast_target_phase": fast_target_phase,
-               "fast_start_volt":   fast_start_volt, 
-               "fast_stop_volt":    fast_stop_volt,
-               "slow_start_word":   slow_start_word,
-               "slow_target_phase": slow_target_phase,
-               "slow_start_volt":   slow_start_volt, 
-               "slow_stop_volt":    slow_stop_volt,
-               "fast_word_width":   fast_word_width,
-               "fast_word_step":    fast_word_step,
-               "fast_asym":         fast_asym,
-               "slow_word_width":   slow_word_width,
-               "slow_word_step":    slow_word_step,              
-               "slow_asym":         slow_asym
+               "scan_file_name":    csv_file_name,
+               "Q_scan_file_name":  csv_file_name2,
+               "config_file_name":  json_file_name
                }
 
 #print(output_dict)
