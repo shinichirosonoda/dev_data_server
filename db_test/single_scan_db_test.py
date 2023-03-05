@@ -12,14 +12,14 @@ fast_start_word = mes_conf["fast"]["start_word"]
 fast_delta_word = mes_conf["fast"]["delta_word"]
 fast_scan_word =  mes_conf["fast"]["scan_word"]
 fast_target_phase = mes_conf["fast"]["target_phase"]
-fast_start_volt, fast_stop_volt = mes_conf["fast"]["volt"][0],  mes_conf["fast"]["volt"][1]
+fast_start_volt, fast_stop_volt, fast_step_volt = mes_conf["fast"]["volt"][0],  mes_conf["fast"]["volt"][1], mes_conf["fast"]["volt"][0]
 
 # slow axis scan
 slow_start_word = mes_conf["slow"]["start_word"]
 slow_delta_word =  mes_conf["slow"]["delta_word"]
 slow_scan_word = mes_conf["slow"]["scan_word"]
 slow_target_phase = mes_conf["slow"]["target_phase"]
-slow_start_volt, slow_stop_volt =  mes_conf["slow"]["volt"][0],  mes_conf["slow"]["volt"][1]
+slow_start_volt, slow_stop_volt, slow_step_volt =  mes_conf["slow"]["volt"][0],  mes_conf["slow"]["volt"][1], mes_conf["slow"]["volt"][0]
 
 # Q measurement condition
 fast_word_width = mes_conf["fast"]["word_width"]

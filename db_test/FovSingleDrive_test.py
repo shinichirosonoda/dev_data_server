@@ -54,6 +54,11 @@ if __name__ == '__main__':
     #print(volt, angle, word)
     
     #fov.q_scan(word, volt, word_width = 15, word_step = 1.0, asym = 0.5, as_slow=False)
+    word_width = mes_conf["fast"]["word_width"]
+    word_step = mes_conf["fast"]["word_step"]
+    asym = mes_conf["fast"]["asym"]
+
+    print(word_width, word_step, asym)
 
     # slow axis scan
     start_word0 = 13892
@@ -74,6 +79,12 @@ if __name__ == '__main__':
     #print(volt, angle, word)
 
     #fov.q_scan(word, volt, word_width = 7, word_step = 0.5, asym = 0.0, as_slow=True)
+
+    word_width = mes_conf["slow"]["word_width"]
+    word_step = mes_conf["slow"]["word_step"]
+    asym = mes_conf["slow"]["asym"]
+
+    print(word_width, word_step, asym)
 
     # save file
     #DataLogging.data_save_to_file(fov.df, file_name= csv_file_name) 
