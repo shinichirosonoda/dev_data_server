@@ -8,11 +8,15 @@ conf = "1"
 
 # fast axis scan
 fast_start_word = json_dict[conf]["fast_start_word"]
+fast_delta_word = json_dict[conf]["fast_delta_word"]
+fast_scan_word =  json_dict[conf]["fast_scan_word"]
 fast_target_phase = json_dict[conf]["fast_target_phase"]
 fast_start_volt, fast_stop_volt = json_dict[conf]["fast_volt"][0],  json_dict[conf]["fast_volt"][1]
 
 # slow axis scan
 slow_start_word = json_dict[conf]["slow_start_word"]
+slow_delta_word = json_dict[conf]["slow_delta_word"]
+slow_scan_word = json_dict[conf]["slow_scan_word"]
 slow_target_phase = json_dict[conf]["slow_target_phase"]
 slow_start_volt, slow_stop_volt = json_dict[conf]["slow_volt"][0],  json_dict[conf]["slow_volt"][1]
 
