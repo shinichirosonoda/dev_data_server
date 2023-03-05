@@ -8,26 +8,26 @@ conf = "1"
 mes_conf = json_dict[conf]
 
 # fast axis scan
-fast_start_word = mes_conf["fast_start_word"]
-fast_delta_word = mes_conf["fast_delta_word"]
-fast_scan_word =  mes_conf["fast_scan_word"]
-fast_target_phase = mes_conf["fast_target_phase"]
-fast_start_volt, fast_stop_volt = mes_conf["fast_volt"][0],  mes_conf["fast_volt"][1]
+fast_start_word = mes_conf["fast"]["start_word"]
+fast_delta_word = mes_conf["fast"]["delta_word"]
+fast_scan_word =  mes_conf["fast"]["scan_word"]
+fast_target_phase = mes_conf["fast"]["target_phase"]
+fast_start_volt, fast_stop_volt = mes_conf["fast"]["volt"][0],  mes_conf["fast"]["volt"][1]
 
 # slow axis scan
-slow_start_word = mes_conf["slow_start_word"]
-slow_delta_word = mes_conf["slow_delta_word"]
-slow_scan_word = mes_conf["slow_scan_word"]
-slow_target_phase = mes_conf["slow_target_phase"]
-slow_start_volt, slow_stop_volt = mes_conf["slow_volt"][0],  mes_conf["slow_volt"][1]
+slow_start_word = mes_conf["slow"]["start_word"]
+slow_delta_word =  mes_conf["slow"]["delta_word"]
+slow_scan_word = mes_conf["slow"]["scan_word"]
+slow_target_phase = mes_conf["slow"]["target_phase"]
+slow_start_volt, slow_stop_volt =  mes_conf["slow"]["volt"][0],  mes_conf["slow"]["volt"][1]
 
 # Q measurement condition
-fast_word_width = mes_conf["fast_word_width"]
-fast_word_step = mes_conf["fast_word_step"]
-fast_asym = mes_conf["fast_asym"]
-slow_word_width = mes_conf["slow_word_width"]
-slow_word_step = mes_conf["slow_word_step"]
-slow_asym = mes_conf["slow_asym"]
+fast_word_width = mes_conf["fast"]["word_width"]
+fast_word_step = mes_conf["fast"]["word_step"]
+fast_asym = mes_conf["fast"]["asym"]
+slow_word_width = mes_conf["slow"]["word_width"]
+slow_word_step = mes_conf["slow"]["word_step"]
+slow_asym = mes_conf["slow"]["asym"]
 
 # sample name
 sample_name = "TT2222222"
