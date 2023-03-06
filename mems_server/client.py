@@ -3,6 +3,7 @@ import requests
 
 db_path1 = './db/mems_board.db'
 db_path2 = './db/mems_fov.db'
+db_path3 = './db/mems_single.db'
 
 # JSONに格納
 dict_data = {"sample_name": "1w01",\
@@ -40,6 +41,37 @@ id = response.json()["id"]
 print(id)
 
 dict_data = {"id": id, "path": db_path2}
+json_data = json.dumps(dict_data).encode('utf-8')
+
+response = requests.post("http://localhost:8080/pick_up_id", data=json_data)
+data = response.json()
+print(data)
+
+
+# JSONに格納
+dict_data = {"sample_name":       "1w01",
+             "fast_word":         28000,
+             "slow_word":         14000,
+             "fast_volt":         7.5,
+             "slow_volt":         10.0,
+             "Q_fast":            2000.0,
+             "Q_slow":            4000.0,
+             "temperature":       25.0,
+             "humidity":          45.0,          
+             "board_id":          "2209-05",
+             "equip_id":          "LTE-01",
+             "camera_id":         "AA01234",
+             "scan_file_name":    "scan_file.csv",
+             "Q_scan_file_name":  "Q_scan.csv",
+             "config_file_name":  "config.json"
+            }
+
+json_data = json.dumps(dict_data).encode('utf-8')
+response = requests.post("http://localhost:8080/data_create_single", data=json_data)
+id = response.json()["id"]
+print(id)
+
+dict_data = {"id": id, "path": db_path3}
 json_data = json.dumps(dict_data).encode('utf-8')
 
 response = requests.post("http://localhost:8080/pick_up_id", data=json_data)
