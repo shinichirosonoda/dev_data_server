@@ -1,0 +1,2 @@
+2023-03-03 11:59:23,406 ERROR    gui_menu_3.1.0     Mems_load_conf  164: KeyError: The Sample_Name is incorrect.
+2023-03-03 12:00:42,939 ERROR    gui_menu_3.1.0     Mems_load_conf  164: KeyError: The Sample_Name is incorrect.
