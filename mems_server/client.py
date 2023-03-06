@@ -47,7 +47,6 @@ response = requests.post("http://localhost:8080/pick_up_id", data=json_data)
 data = response.json()
 print(data)
 
-
 # JSONに格納
 dict_data = {"sample_name":       "1w01",
              "fast_word":         28000,
